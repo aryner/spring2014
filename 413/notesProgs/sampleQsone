@@ -1,0 +1,191 @@
+CSc 413 Exam Questions - Intro Through Chapter 8 (Inheritance)
+
+1. What are class variables used for?
+
+2. What are instance variables used for?
+
+3. Why do we normally declare variables as private?
+
+4. What advantages accrue from focusing on what we want to do to accomplish a task rather than how to accomplish the task?
+
+5. When designing a solution to a problem should we focus on what the roles of the objects are or how those roles are implemented? Briefly explain.
+
+6. Give a Java example of a class and an instance.
+
+7. What are abstract classes used for in the inheritance hierarchy?
+
+8. Consider the Java expression a.m() where a is an instance of A. If m() is not a method in A then where do we search for the body of m()?
+
+9. Java uses the principle of write once run anywhere. What is meant by this principle?
+
+10. In OOP do we focus on the data or the tasks?
+
+11. What are class diagrams used for?
+
+12. Why do we want to reduce coupling between program modules?
+
+13. A class description encompasses both the description of the behavior and the state. With reference to Java what corresponds to behavior? to state?
+
+14. Why do we desire a high degree of cohesion in Java classes?
+
+15. In Java what construct is used to specify a set of services that are to be provided by modules, without specifying any details on how the services are carried out?
+
+16. Write a Java program that simply prints Hello and exits.
+
+17. What is the Java package used for?
+
+18. How do we indicate in Java that class B is a subclass of class A?
+
+19. What Java class is at the root of the Java class hierarchy?
+
+20. Give an example of a declaration of a Java class variable such that once it's initialized its value cannot be modified.
+
+21. What classes can access protected variables in Java?
+
+22. Suppose we have a private int instance variable in java named x. What name should we give the method that returns its current value?
+
+23. What is the overall function of the lexer?
+
+24. What role did TokenSetup.java play in the lexer?
+
+25. The Enumeration interface is provided for sequencing through collections in a uniform and consistent fashion. What benefits accrue from handling the sequencing in a uniform and consistent fashion?
+
+26. Why do we provide javadoc documentation?
+
+27. Consider the following code segment:
+
+	try { 
+	     in = new BufferedReader(new FileReader("abc")); 
+	     ... 
+	} catch (Exception e) {}
+
+	Give an example of a situation that might cause control to branch to the catch clause when executing the segment above.
+	28. Suppose we use Hashtable h = new Hashtable(); 
+	Can we use primitive types such as ints or floats as keys? as values?
+
+29. Consider the code extracted from Lexer (with minor changes):
+	if (Character.isDigit(ch)) {
+	    String n = "";
+	    try { do {
+		  n += ch;
+		  ch = source.read();
+		  } while (Character.isDigit(ch));
+	   } catch (Exception e) { atEOF = true; }
+
+	return n;
+	Modify the code to return numbers described by d+ or d+. (one or more digits optionally followed by a period).
+
+30. What is the role of the parser?
+
+31. What do the initials AST stand for?
+
+32. The AST is a _________ data structure that represents ___________, which is used for subsequent processing.
+
+33. Show the AST that represents 
+		 program { int i i = 5 }
+	Use any form of AST used in lecture.
+
+34. Why would we use Java Vectors rather then Java arrays?
+
+35. Is it possible to create instances of the AST class?
+
+36. Suppose we change the se rules in the grammar to:
+	se -> t
+	   -> t + se  ==> +          write the parser code for these rules
+	   -> t - se  ==> -
+	   -> t | se  ==> or
+
+37. Consider the code segment
+
+	public AST rProgram() { 
+		  ... 
+		 return new ProgramTree(); 
+		 ...
+
+In the method heading we indicate the return value is an AST but in the body we return a ProgramTree object. What relation must hold between AST and ProgramTree to allow this code to work?
+
+38. Complete the following code segment which breaks a string into tokens and prints them one per line.
+
+	StringTokenizer t = new StringTokenizer("a bc d"); 
+	while (t.hasMoreTokens() ) {
+
+39. What method is included in the AST classes to facilitate visiting AST trees?
+
+40. Why do we desire to separate the visitor code from the AST code?
+
+41. We used double dispatching with tree visitors to avoid switch statements. Why do we wish to avoid switch statements?
+
+42. The Java Object class contains the methods equals and hashcode. Why is it necessary to include the equals method wherever we include the hashcode method?
+
+43. Name 3 forms of inheritance.
+
+44. Which 2 forms of inheritance are the most important?
+
+45. What is multiple inheritance?
+
+46. Give a simple example that demonstrates a problem with multiple inheritance.
+
+47. Does C++ allow multiple inheritance?
+  ***Yes***
+48. Does Java allow multiple inheritance?
+  ***no***
+49. Consider the declaration
+
+	public static final int i = 0;
+
+	What does the static modifier indicate? 
+	What does the final modifier indicate?
+
+50. Consider the declaration
+
+         public final class Abc { 
+        ...
+
+What does the final modifier indicate?
+
+51. Show the AST for the following X source program
+
+                  program { int k k = 5 k = write(2) }
+
+52. Name 3 benefits of inheritance.
+
+53. Describe the notion of dynamic binding using an example.
+
+54. The inheritance hierarchy is an example of tightly coupled program components. What is the problem with this tight coupling? (use an example with the inheritance hierarchy to help clarify your answer)
+
+55. Give an example of the principle of substitutability used in the compiler (i.e. show some Java code).
+
+56. What benefits accrue from the provision of a Java class hierarchy with the Object class as the root?
+
+57. Should we program to an interface or implementation?
+
+58. What is the accept method used for in the tree classes?
+
+59. Consider the following grammar rules?
+	S -> return E             ==> return
+	  -> do Block while { E } ==> do
+	Write the Java method to parse these statements.
+
+60. What is a Singleton Design Pattern and how was it used in the Lexer?
+
+61. What technique was used in the Symbol class to implement the Singleton Design Pattern?
+
+62. Why did we desire to use the Singleton Design Pattern for the Symbol class?
+
+63. Consider the following grammar rules:
+	AssignExpr -> E = AssignExpr   ==> =
+		   -> E
+	Write the Java method to parse these assignment expressions
+
+64. Write a Java program P.java that prints every odd command line argument, one per line
+
+	e.g.
+
+	java P
+
+	Java P a b 
+	a 
+	java P a b c d 
+	a 
+	c 
+ 

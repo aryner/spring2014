@@ -1,0 +1,20 @@
+**************On a mac*************
+ALEXANDERs-MacBook-Air:hw1 alexanderryner$ gcc hw1.c 
+ALEXANDERs-MacBook-Air:hw1 alexanderryner$ ./a.out 
+Hello 415, it's me alex ryner
+
+
+************On windows VM**********
+C:\Users\Alan\Documents\Visual Studio 2013\Projects\winHw1\winHw1>cl winHw1.c
+Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+winHw1.c
+Microsoft (R) Incremental Linker Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:winHw1.exe
+winHw1.obj
+
+C:\Users\Alan\Documents\Visual Studio 2013\Projects\winHw1\winHw1>winHw1.exe
+Hello 415, it's me alex ryner
