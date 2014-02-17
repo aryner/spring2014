@@ -1,9 +1,11 @@
 from gauss import *
 
-matrix = [[10,10,10,1e17,1e17],
-          [1,1e-3,1e-3,1e-3,1],
+matrix = [
+          [1,1,1,1e-3,3],
           [1,1,1e-3,1e-3,2],
-          [1,1,1,1e-3,3]]
+          [1,1e-3,1e-3,1e-3,1],
+          [10,10,10,1e17,1e17]
+          ]
 
 print '***The matrix in question:***'
 show(matrix)
