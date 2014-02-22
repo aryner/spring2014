@@ -25,6 +25,7 @@ public class Lexer {
     }
 
 
+/*
     public static void main(String args[]) {
         Token tok;
 
@@ -32,15 +33,15 @@ public class Lexer {
             Lexer lex = new Lexer(args[0]);
             while (true) {
                 tok = lex.nextToken();
-/*
-                String p = "L: " + tok.getLeftPosition() +
-                   " L: " + tok.getRightPosition() + "  " +
-                   TokenType.tokens.get(tok.getKind()) + " ";
-                if ((tok.getKind() == Tokens.Identifier) ||
-                    (tok.getKind() == Tokens.INTeger))
-                    p += tok.toString();
-                System.out.println(p + ": "+lex.source.getLineno());
-*/
+
+//                String p = "L: " + tok.getLeftPosition() +
+//                   " L: " + tok.getRightPosition() + "  " +
+//                   TokenType.tokens.get(tok.getKind()) + " ";
+//                if ((tok.getKind() == Tokens.Identifier) ||
+//                    (tok.getKind() == Tokens.INTeger))
+//                    p += tok.toString();
+//                System.out.println(p + ": "+lex.source.getLineno());
+
                 if(!lex.atEOF) {
 		    tok.print();
                 }
@@ -51,6 +52,7 @@ public class Lexer {
         } catch (Exception e) {}
     }
 
+*/
  
 /**
  *  newIdTokens are either ids or reserved words; new id's will be inserted
