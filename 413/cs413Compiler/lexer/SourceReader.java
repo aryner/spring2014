@@ -40,8 +40,8 @@ public class SourceReader {
  *  @exception IOException is thrown if there is an I/O problem
 */
     public SourceReader(String sourceFile) throws IOException {
-    	System.out.println("Source file: "+sourceFile);
-    	System.out.println("user.dir: " + System.getProperty("user.dir"));
+//    	System.out.println("Source file: "+sourceFile);
+ //   	System.out.println("user.dir: " + System.getProperty("user.dir"));
         source = new BufferedReader(new FileReader(sourceFile));
     }
 
@@ -63,9 +63,9 @@ public class SourceReader {
             position = -1;
             nextLine = source.readLine();
             programLines.add(nextLine);
-            if (nextLine != null) {
-                System.out.println("READLINE:   "+nextLine);
-            }
+//            if (nextLine != null) {
+ //               System.out.println("READLINE:   "+nextLine);
+  //          }
             isPriorEndLine = false;
         }
         if (nextLine == null) {  // hit eof or some I/O problem

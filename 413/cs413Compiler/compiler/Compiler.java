@@ -2,8 +2,8 @@ package compiler;
 
 import ast.*;
 import parser.Parser;
-import constrain.Constrainer;
-import codegen.*;
+//import constrain.Constrainer;
+//import codegen.*;
 import visitor.*;
 
 /**
@@ -24,18 +24,18 @@ public class Compiler {
     
     void compileProgram() {
         try {
-            System.out.println("---------------TOKENS-------------");
+//            System.out.println("---------------TOKENS-------------");
             Parser parser = new Parser(sourceFile);
             AST t = parser.execute();
             System.out.println("---------------AST-------------");
             PrintVisitor pv = new PrintVisitor();
             t.accept(pv);
-/*  COMMENT CODE FROM HERE UNTIL THE CATCH CLAUSE WHEN TESTING PARSER */            
+/*  COMMENT CODE FROM HERE UNTIL THE CATCH CLAUSE WHEN TESTING PARSER             
             Constrainer con = new Constrainer(t,parser);
             con.execute();
             System.out.println("---------------DECORATED AST-------------");
             t.accept(pv);
-/*  COMMENT CODE FROM HERE UNTIL THE CATCH CLAUSE WHEN TESTING CONSTRAINER */            
+//  COMMENT CODE FROM HERE UNTIL THE CATCH CLAUSE WHEN TESTING CONSTRAINER             
             Codegen generator = new Codegen(t);
             Program program = generator.execute();
             System.out.println("---------------AST AFTER CODEGEN-------------");
@@ -49,6 +49,7 @@ public class Compiler {
             Constrainer.boolTree.accept(pv);
             program.printCodes(sourceFile + ".cod");
             // if the source file is "abc" print bytecodes to abc.cod
+*/
         }catch (Exception e) {
             System.out.println("********exception*******"+e.toString());
          };

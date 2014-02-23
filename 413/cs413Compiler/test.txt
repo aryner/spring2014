@@ -1,2 +1,17 @@
-float f = 1.4.7 55
-f <= 2.3 float} / comment . > , , . & 5
+program {
+ repeat {
+   float f
+   f = 1.2
+   repeat {
+    while a{
+     repeat {
+       while a == b {
+         repeat {
+           repeat {} while b <= a
+         } while b != a
+       }
+     } while b < a
+    }
+   } while a
+ } while b < a
+}

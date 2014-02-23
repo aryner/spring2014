@@ -10,44 +10,47 @@ import ast.*;
  *  for the source program<br>
  *  Following is the Grammar we are using:<br>
  *  <pre>
- *  PROGRAM -> ‘program’ BLOCK ==> program
+ *  PROGRAM -> 'program' BLOCK ==> program
  *  
- *  BLOCK -> ‘{‘ D* S* ‘}’  ==> block
+ *  BLOCK -> '{' D* S* '}'  ==> block
  *  
  *  D -> TYPE NAME                    ==> decl
  *    -> TYPE NAME FUNHEAD BLOCK      ==> functionDecl
  *  
- *  TYPE  ->  ‘int’
- *        ->  ‘boolean’
+ *  TYPE  ->  'int'
+ *        ->  'boolean'
+ *        ->  'float'
  *
  *  FUNHEAD  -> '(' (D list ',')? ')'  ==> formals<br>
  *
- *  S -> ‘if’ E ‘then’ BLOCK ‘else’ BLOCK  ==> if
- *    -> ‘while’ E BLOCK               ==> while
- *    -> ‘return’ E                    ==> return
+ *  S -> 'if' E 'then' BLOCK 'else' BLOCK  ==> if
+ *    -> 'while' E BLOCK               ==> while
+ *    -> 'return' E                    ==> return
  *    -> BLOCK
- *    -> NAME ‘=’ E                    ==> assign<br>
+ *    -> NAME '=' E                    ==> assign<br>
+ *    -> 'repeat' BLOCK 'while' E      ==> repeat
  *  
  *  E -> SE
- *    -> SE ‘==’ SE   ==> =
- *    -> SE ‘!=’ SE   ==> !=
- *    -> SE ‘<’  SE   ==> <
- *    -> SE ‘<=’ SE   ==> <=
+ *    -> SE '==' SE   ==> =
+ *    -> SE '!=' SE   ==> !=
+ *    -> SE '<'  SE   ==> <
+ *    -> SE '<=' SE   ==> <=
  *  
  *  SE  ->  T
- *      ->  SE ‘+’ T  ==> +
- *      ->  SE ‘-‘ T  ==> -
- *      ->  SE ‘|’ T  ==> or
+ *      ->  SE '+' T  ==> +
+ *      ->  SE '-' T  ==> -
+ *      ->  SE '|' T  ==> or
  *  
  *  T  -> F
- *     -> T ‘*’ F  ==> *
- *     -> T ‘/’ F  ==> /
- *     -> T ‘&’ F  ==> and
+ *     -> T '*' F  ==> *
+ *     -> T '/' F  ==> /
+ *     -> T '&' F  ==> and
  *  
- *  F  -> ‘(‘ E ‘)’
+ *  F  -> '(' E ')'
  *     -> NAME
  *     -> <int>
  *     -> NAME '(' (E list ',')? ')' ==> call<br>
+ *     -> <float>
  *  
  *  NAME  -> <id>
  *  </pre>
@@ -156,6 +159,7 @@ public class Parser {
 /** <pre>
  *  type  ->  'int'
  *  type  ->  'bool'
+ *  type  ->  'float'
  *  </pre>
  *  @return either the intType or boolType tree
  *  @exception SyntaxError - thrown for any syntax error
@@ -165,7 +169,12 @@ public class Parser {
         if (isNextTok(Tokens.Int)) {
             t = new IntTypeTree();
             scan();
-        } else {
+        }
+        else if (isNextTok(Tokens.Float)) {
+	  t = new FloatTypeTree();
+	  scan();
+	}	
+	else {
             expect(Tokens.BOOLean);
             t = new BoolTypeTree();
         }
@@ -203,6 +212,7 @@ public class Parser {
  *        -> 'return' e  ==> return
  *        -> block
  *        -> name '=' e  ==> assign
+ *        -> 'repeat' block 'while' e ==> repeat
  *  </pre>
  *  @return the tree corresponding to the statement found
  *  @exception SyntaxError - thrown for any syntax error
@@ -226,6 +236,14 @@ public class Parser {
             t.addKid(rBlock());
             return t;
         }
+	if (isNextTok(Tokens.Repeat)) {
+	    scan();
+	    t = new RepeatTree();
+            t.addKid(rBlock());
+            expect(Tokens.While);
+	    t.addKid(rExpr());
+	    return t;
+	}
         if (isNextTok(Tokens.Return)) {
             scan();
             t = new ReturnTree();
@@ -310,6 +328,7 @@ public class Parser {
  *         -> name
  *         -> <int>
  *         -> name '(' (e list ',')? ')' ==> call
+ *         -> <float>
  *  </pre>
  *  @return the tree corresponding to the factor expression
  *  @exception SyntaxError - thrown for any syntax error
@@ -327,6 +346,11 @@ public class Parser {
             scan();
             return t;
         }
+	if (isNextTok(Tokens.FloatingPoint)) {
+	    t = new FloatTree(currentToken);
+	    scan();
+	    return t;
+	}
         t = rName();
         if (!isNextTok(Tokens.LeftParen)) {  //  -> name
             return t;
@@ -414,7 +438,7 @@ public class Parser {
     private void scan() {
         currentToken = lex.nextToken();
         if (currentToken != null) {
-            currentToken.print();   // debug printout
+//            currentToken.print();   // debug printout
         }
         return;
     }

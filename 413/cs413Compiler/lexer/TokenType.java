@@ -38,5 +38,6 @@ public class TokenType {
      tokens.put(Tokens.Comment, Symbol.symbol("//",Tokens.Comment));
      tokens.put(Tokens.Float, Symbol.symbol("float",Tokens.Float));
      tokens.put(Tokens.FloatingPoint, Symbol.symbol("<float>",Tokens.FloatingPoint));
+     tokens.put(Tokens.Repeat, Symbol.symbol("repeat",Tokens.Repeat));
    }
 }
