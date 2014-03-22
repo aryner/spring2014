@@ -1,0 +1,143 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 AndaleMono;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red255\green255\blue255;\red47\green255\blue18;
+}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f0\fs26 \cf2 \cb3 For both programs I defined threadCount to hold the number of threads to be used, a data buffer to hold the contents of the file being read, and a struct threadInfo to be passed as the argument for each thread that has data fields start, end and count, all ints.  \
+\
+I create an array of these structs and use the size of the file being word counted to decide what to put in start and end.  FirstStruct.start gets 0 and lastStruct.end get the file size then each struct.end gets the value of (fileSize / threadCount) * index shifted up until it is not on a word char and each struct.start gets the values of the previous structs .end.  \
+\
+When creating each thread I pass the function wordCount which takes as its argument one of the threadInfo structs.  The structs start and end values are used to decide which parts of of the data buffer to read.  It does this with a while loop that continues until start >= end.  At the start of the loop it uses another loop to move start to the next word char, if start < end the word count is incremented, then another loop is used to increment start to the end of the word before starting the loop over again.\
+\
+After the threads return their count values are summed into a sum variable which is printed out to display the word count.\
+\
+For the windows version I use HeapAlloc to allocate memory for the threadInfo structs.  I used CreateThread to make the threads then WaitForMulitpleObjects to wait for the threads to finish, and finally I use CloseHandle to close the threads.\
+\
+For the posix version I needed a pthread_attr_t variable to create the threads and I used pthread_attr_init to initialize it.  I then use pthread_create to make each thread and after they are made I use pthread_attr_destroy on the pthread_attr_t variable.  Finally pthread_join is used to wait for each thread to finish.\
+
+\b \
+\
+Time and output for posix with 1,2,4,8 threads(4 cores)
+\b0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f1\fs24 \cf4 \cb0 \CocoaLigature0 ALEXANDERs-MacBook-Air:hw4 alexanderryner$ gcc wordCount.c \
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ time ./a.out test4 \
+21334 words\
+\
+real	0m0.013s\
+user	0m0.002s\
+sys	0m0.002s\
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ gcc wordCount.c \
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ time ./a.out test4 \
+21334 words\
+\
+real	0m0.015s\
+user	0m0.004s\
+sys	0m0.003s\
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ gcc wordCount.c \
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ time ./a.out test4 \
+21334 words\
+\
+real	0m0.013s\
+user	0m0.004s\
+sys	0m0.003s\
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ gcc wordCount.c \
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ time ./a.out test4 \
+21334 words\
+\
+real	0m0.013s\
+user	0m0.003s\
+sys	0m0.003s\
+ALEXANDERs-MacBook-Air:hw4 alexanderryner$ 
+\f0\fs26 \cf2 \cb3 \CocoaLigature1 \
+\pard\pardeftab720\sa260
+\cf2 \
+
+\b Windows output for 1,2,4,8 threads followed by windows times for 1,2,4,8 threads(on my virtual machine)
+\b0 \
+C:\\Users\\Alan\\Desktop\\415\\hw4>cl winWordCount.c\uc0\u8232 Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+winWordCount.c\uc0\u8232 Microsoft (R) Incremental Linker Version 12.00.21005.1\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+/out:winWordCount.exe\uc0\u8232 winWordCount.obj\
+C:\\Users\\Alan\\Desktop\\415\\hw4>winWordCount test\uc0\u8232 19591 words\
+C:\\Users\\Alan\\Desktop\\415\\hw4>vim winWordCount.c\
+C:\\Users\\Alan\\Desktop\\415\\hw4>cl winWordCount.c\uc0\u8232 Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+winWordCount.c\uc0\u8232 Microsoft (R) Incremental Linker Version 12.00.21005.1\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+/out:winWordCount.exe\uc0\u8232 winWordCount.obj\
+C:\\Users\\Alan\\Desktop\\415\\hw4>winWordCount test\uc0\u8232 19591 words\
+C:\\Users\\Alan\\Desktop\\415\\hw4>vim winWordCount.c\
+C:\\Users\\Alan\\Desktop\\415\\hw4>winWordCount test\uc0\u8232 19591 words\
+C:\\Users\\Alan\\Desktop\\415\\hw4>cl winWordCount.c\uc0\u8232 Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+winWordCount.c\uc0\u8232 Microsoft (R) Incremental Linker Version 12.00.21005.1\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+/out:winWordCount.exe\uc0\u8232 winWordCount.obj\
+C:\\Users\\Alan\\Desktop\\415\\hw4>winWordCount test\uc0\u8232 19591 words\
+C:\\Users\\Alan\\Desktop\\415\\hw4>vim winWordCount.c\
+C:\\Users\\Alan\\Desktop\\415\\hw4>cl winWordCount.c\uc0\u8232 Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+winWordCount.c\uc0\u8232 Microsoft (R) Incremental Linker Version 12.00.21005.1\u8232 Copyright (C) Microsoft Corporation.\'a0 All rights reserved.\
+/out:winWordCount.exe\uc0\u8232 winWordCount.obj\
+C:\\Users\\Alan\\Desktop\\415\\hw4>winWordCount test\uc0\u8232 19591 words\
+C:\\Users\\Alan\\Desktop\\415\\hw4>\
+\pard\pardeftab720
+\cf2 \
+\
+PS C:\\Users\\Alan\\Desktop\\415\\hw4> Measure-Command\{.\\winWordCount .\\test\}\
+\
+Days\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Hours\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Minutes\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Seconds\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Milliseconds\'a0\'a0\'a0\'a0\'a0 : 9\
+Ticks\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 97861\
+TotalDays\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 1.13265046296296E-07\
+TotalHours\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 2.71836111111111E-06\
+TotalMinutes\'a0\'a0\'a0\'a0\'a0 : 0.000163101666666667\
+TotalSeconds\'a0\'a0\'a0\'a0\'a0 : 0.0097861\
+TotalMilliseconds : 9.7861\
+\
+PS C:\\Users\\Alan\\Desktop\\415\\hw4> Measure-Command\{.\\winWordCount .\\test\}\
+\
+Days\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Hours\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Minutes\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Seconds\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Milliseconds\'a0\'a0\'a0\'a0\'a0 : 8\
+Ticks\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 81507\
+TotalDays\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 9.43368055555556E-08\
+TotalHours\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 2.26408333333333E-06\
+TotalMinutes\'a0\'a0\'a0\'a0\'a0 : 0.000135845\
+TotalSeconds\'a0\'a0\'a0\'a0\'a0 : 0.0081507\
+TotalMilliseconds : 8.1507\
+\
+PS C:\\Users\\Alan\\Desktop\\415\\hw4> Measure-Command\{.\\winWordCount .\\test\}\
+\
+Days\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Hours\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Minutes\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Seconds\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Milliseconds\'a0\'a0\'a0\'a0\'a0 : 7\
+Ticks\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 78575\
+TotalDays\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 9.0943287037037E-08\
+TotalHours\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 2.18263888888889E-06\
+TotalMinutes\'a0\'a0\'a0\'a0\'a0 : 0.000130958333333333\
+TotalSeconds\'a0\'a0\'a0\'a0\'a0 : 0.0078575\
+TotalMilliseconds : 7.8575\
+\
+PS C:\\Users\\Alan\\Desktop\\415\\hw4> Measure-Command\{.\\winWordCount .\\test\}\
+\
+Days\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Hours\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Minutes\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Seconds\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 0\
+Milliseconds\'a0\'a0\'a0\'a0\'a0 : 7\
+Ticks\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 71178\
+TotalDays\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 8.23819444444444E-08\
+TotalHours\'a0\'a0\'a0\'a0\'a0\'a0\'a0 : 1.97716666666667E-06\
+TotalMinutes\'a0\'a0\'a0\'a0\'a0 : 0.00011863\
+TotalSeconds\'a0\'a0\'a0\'a0\'a0 : 0.0071178\
+TotalMilliseconds : 7.1178\
+\
+PS C:\\Users\\Alan\\Desktop\\415\\hw4>\
+}

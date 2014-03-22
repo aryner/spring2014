@@ -1,0 +1,151 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf190
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 There are four main software classes: 
+\b users
+\b0 , 
+\b products
+\b0 , 
+\b emails
+\b0 , 
+\b wishLists
+\b0 .  \
+
+\b Users
+\b0  consist of registered 
+\b users
+\b0  who can take the role of both 
+\b buyers
+\b0  and 
+\b sellers
+\b0 .  
+\b Users
+\b0  will be able to post new 
+\b products
+\b0  for sale and send 
+\b emails
+\b0  to other 
+\b users 
+\b0 in order to arrange transactions.\
+
+\b Products 
+\b0 each belong to a single 
+\b user
+\b0  and hold the information that user provided about the details of the 
+\b product
+\b0 .  It is through 
+\b products 
+\b0 that 
+\b users
+\b0  are able find each others 
+\b emails
+\b0  to communicate and arrange transactions.\
+
+\b Emails 
+\b0 are associated with two 
+\b users
+\b0 , the 
+\b seller
+\b0  and a potential 
+\b buyer
+\b0 .  To start an exchange of 
+\b emails
+\b0  a potential 
+\b buyer 
+\b0 must first send an 
+\b email 
+\b0 to the 
+\b seller
+\b0  by using the 
+\b email 
+\b0 provided by the 
+\b sellers product
+\b0 .  After this initial 
+\b email 
+\b0 they are able to exchange new 
+\b emails 
+\b0  through the already sent 
+\b emails
+\b0 .\
+
+\b WishLists
+\b0  belong to a 
+\b user
+\b0  and are associated with a 
+\b product
+\b0 .  A 
+\b user
+\b0  selects a 
+\b product 
+\b0 to add to his or her 
+\b wishList
+\b0  and then is able to quickly find the 
+\b product 
+\b0 at a future time through use of the 
+\b wishList
+\b0 .\
+\
+There are four database tables, one for each of the classes listed above.\
+The 
+\b user 
+\b0 data is generated when a new 
+\b user
+\b0  registers.   The userId is automatically generated for the 
+\b user
+\b0 , along with regTime which records the date and time the 
+\b user 
+\b0 registers.  The other three fields: userName, name, and email are provided by the 
+\b user
+\b0 .\
+The 
+\b product 
+\b0 data is generated when a 
+\b user 
+\b0 posts a new 
+\b product 
+\b0 for sale.  The 
+\b productID
+\b0  is automatically generated and the userID is automatically taken from the 
+\b users
+\b0  id.  TimePosted is also automatically generated with the time the 
+\b user
+\b0  creates the post.  The remaining four fields: 
+\b category, title, description, 
+\b0 and img are provided by the 
+\b user
+\b0  creating the 
+\b product
+\b0  post.\
+
+\b Email
+\b0  data is generated either when a potential 
+\b buy
+\b0  sends an 
+\b email 
+\b0 through the 
+\b product
+\b0  page or when one is sent through an already sent as a reply to a previous 
+\b email
+\b0 .  The sender, receiver, productId, and timeSent fields are automatically generated appropriately.  While the content field is produced by the sender of the 
+\b email
+\b0 .\
+
+\b WishList
+\b0  data is created by a 
+\b user
+\b0 .  When a 
+\b user
+\b0  chooses to 
+\b wish list
+\b0  a 
+\b product 
+\b0 the two fields productId and userId are automatically generated. \
+\
+
+\b Product images
+\b0  will be stored in a file system and the database will access them through pointers to their location.  We will accept the following formats for 
+\b product images
+\b0 : gif, jpeg, jpg, pjpeg, x-png, and png.}

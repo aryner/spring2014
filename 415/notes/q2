@@ -1,0 +1,7 @@
+process states
+process creation
+process control blocks
+short-term vs. long-term scheduling
+interprocess communication models
+differences between threads and processes
+mapping from user threads to kernel threads
