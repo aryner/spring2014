@@ -1,5 +1,32 @@
-package byteCode;
+package byteCodes;
+
+import java.util.*;
+import virtualMachine.VirtualMachine;
 
 public class PopCode extends ByteCode {
+  String arg;
 
+  public void loadArgs(Vector<String> args){
+    arg = args.get(0);
+  }
+
+  public String getArg() {
+    return arg;
+  }
+
+  public void execute(VirtualMachine vm) {
+    for(int i=0; i<Integer.parseInt(arg); i++) {
+      vm.runStackPop();
+    }
+
+    if(vm.isDump()) {
+      System.out.println(this.toString());
+      vm.runStackDump();
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "POP " +arg;
+  }
 }

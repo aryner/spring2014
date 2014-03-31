@@ -1,0 +1,183 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf190
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fmodern\fcharset0 CourierNewPS-BoldItalicMT;
+}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 Test 1\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b\fs20 \cf0 \expnd0\expndtw0\kerning0
+DEBUGGING\
+ByteCodes needed: DUMP, LIT, HALT\
+\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f2\i \cf0 \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 3\
+LIT 4\
+DUMP OFF\
+LIT 5\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: The RunTimeStack should exit with three items, 3, 4 and 5. \
+\
+\
+Test 2\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 3\
+LIT 4\
+BOP +\
+LIT 2\
+BOP -\
+LIT 6\
+BOP *\
+LIT 3\
+BOP /\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: The solution should be 10.\
+\
+Test 3\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 3\
+LIT 3\
+BOP ==\
+LIT 2 \
+BOP <\
+LIT 2\
+BOP <=\
+LIT 2\
+BOP +\
+LIT 2\
+BOP >\
+LIT 2\
+BOP +\
+LIT 2\
+BOP >=\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: All of the tests should return true (1).\
+\
+\
+test 4\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 3\
+LOAD 0 i\
+LIT 5\
+STORE 0 i\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: The stack should exit with 2 items, 5 and 3.\
+\
+\
+test 5\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 4\
+LABEL start\
+LIT 1\
+BOP -\
+LOAD 0 i\
+FALSEBRANCH exit\
+GOTO start\
+LABEL exit\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: Watch your vm.pc value carefully, specifically, either \
+adjust your target branch addresses by -1 to compensate for the pc \
+incrementation, or move the incrementation. There should be 4 iterations \
+of the loop, and the stack should exit with 1 item, 0. \
+\
+\
+Test 6\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 7 \
+ARGS 1\
+CALL increment\
+HALT\
+LABEL increment\
+LIT 7 \
+LIT 1\
+BOP +\
+RETURN increment
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: Watch your stack frames, specifically don't forget to \
+create a new stack frame and get all the arguments on to the new stack.\
+The stack should exit with 1 item, 8. \
+\
+\
+Test 7\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+LIT 0 doNothing\
+LIT 0 otherNothing\
+LIT 3 \
+LIT 4 \
+ARGS 2\
+CALL multiply\
+STORE 0 i\
+POP 1\
+HALT\
+LABEL multiply\
+LOAD 0 i\
+LOAD 1 j\
+BOP *\
+LIT 6 \
+ARGS 2\
+CALL accumulate\
+RETURN multiply\
+LABEL accumulate\
+LOAD 0 x\
+LOAD 1 k\
+BOP +\
+RETURN accumulate
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: The stack should exit with one item, 18.\
+There should be no frame offsets (only the original stack should\
+remain).\
+\
+\
+\
+Test 9\
+
+\f2\i \expnd0\expndtw0\kerning0
+DUMP ON\
+READ\
+LIT 3\
+BOP *\
+WRITE\
+HALT
+\f1\i0 \expnd0\expndtw0\kerning0
+\
+\
+Things to look for: By now, the test infrastructure should have been folded\
+into your DUMP implementation. Input any valid integer, and see it multiplied\
+by 3.\
+}

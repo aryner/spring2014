@@ -3,23 +3,24 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
-public class WriteCode extends ByteCode {
+public class DumpCode extends ByteCode {
+   String arg;
 
   public void loadArgs(Vector<String> args){
-
+    arg = args.get(0);
   }
 
   public void execute(VirtualMachine vm) {
-    System.out.println(vm.runStackPeek());
-
-    if(vm.isDump()) {
-      System.out.println(this.toString());
-      vm.runStackDump();
+    if (arg.equals("ON")) {
+      vm.dumpOn();
+    }
+    else {
+      vm.dumpOff();
     }
   }
 
   @Override
   public String toString() {
-    return "Writecode";
+    return "DUMP";
   }
 }
