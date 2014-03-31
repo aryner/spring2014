@@ -1,0 +1,445 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf190
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red83\green81\blue135;\red38\green38\blue38;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b\fs30 \cf2 \expnd0\expndtw0\kerning0
+USING REFLECTION TO CREATE CLASS INSTANCES\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\b0 \cf3 \expnd0\expndtw0\kerning0
+Imagine that you're doing some Java programming, and you need to create a new instance of the A class. You write some code like this: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    A aref = new A();\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+Pretty obvious, right? \
+Suppose, however, you take a step further and specify that the name of the class is found in a string made available at run time. It's still possible to proceed, like this: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    String classname; // can be either A, B, or C\
+\
+    A aref = null;\
+    B bref = null;\
+    C cref = null;\
+\
+    if (classname.equals("A"))\
+        aref = new A();\
+    else if (classname.equals("B"))\
+        bref = new B();\
+    else\
+        cref = new C();\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+This code works, but it's cumbersome. Also, it can't be expanded much further without major effort. \
+There's another approach that works much better in this kind of situation. The basic idea is that you use 
+\f1 \expnd0\expndtw0\kerning0
+Class.forName
+\f0 \expnd0\expndtw0\kerning0
+ to obtain a 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ object for a class whose string name you specify. 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ is a class whose instances represent Java types, such as classes and interfaces and arrays. After you obtain a 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ instance, you can call 
+\f1 \expnd0\expndtw0\kerning0
+newInstance
+\f0 \expnd0\expndtw0\kerning0
+ to create a new object of the class represented by the 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ instance. The code looks like this: \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\b \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+    Class cls = Class.forName(classname);\
+\
+    Object obj = cls.newInstance();\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+This sequence creates an object of the class whose string name is 
+\f1 \expnd0\expndtw0\kerning0
+classname
+\f0 \expnd0\expndtw0\kerning0
+. \
+After you have a 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class instance
+\f0 \expnd0\expndtw0\kerning0
+, you can also find out other things about the represented class, for example, what methods and fields it contains. You can look up methods by name, and use reflection to call these methods. \
+Let's look at an example to make these ideas a little more concrete. The example uses 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ and reflection to implement a class and method exerciser. The idea is that you have some classes and methods, and you'd like to write a driver program to test them. For example, for this input: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    $ java NewDemo A string1 string2 @ f2 string3 string4 string5\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+the driver creates an object of class A, using string1/string2 as string arguments to the A constructor. The driver then calls A.f2 for the created object, using string3/string4/string5 as arguments to the f2 method. \
+Note that the driver program doesn't know anything about the A class. It's written in a general way to work with any class. The driver looks up and manipulates class and method names using 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ and reflection. \
+Here's what the code looks like: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    import java.lang.reflect.*;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+    public class NewDemo \{\
+        Class cls;\
+    \
+        Object obj;\
+    \
+        Constructor ctor;\
+        Object ctorargs[];\
+    \
+        Method meth;\
+        Object methargs[];\
+    \
+        String args[];\
+        int divpos;\
+    \
+        // parse input of the form:\
+        //\
+        //  classname arg1 arg2 ... \
+        //   @ methodname arg1 arg2 ...\
+    \
+        public NewDemo(String a[]) throws \
+            ClassNotFoundException, \
+            NoSuchMethodException \{\
+    \
+            args = a;\
+    \
+            // search for @ divider in input\
+    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+          divpos = -1;\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+            for (int i = 0; i < args.length; i++) \{\
+                if (args[i].equals("@")) \{\
+                    divpos = i;\
+                    break;\
+                \}\
+            \}\
+            if (divpos < 1 || divpos + 1 == args.length) \{\
+                throw new IllegalArgumentException(\
+                    "bad syntax");\
+            \}\
+    \
+            // load appropriate class \
+            // and get Class object\
+    \
+            String classname = args[0];\
+            cls = Class.forName(classname);\
+    \
+            // find the constructor, \
+            // if arguments specified for it\
+    \
+            if (divpos > 1) \{\
+                Class ptypes[] = new Class[divpos - 1];\
+                for (int i = 0; i < ptypes.length; i++) \{\
+                    ptypes[i] = String.class;\
+                \}\
+                ctor = cls.getConstructor(ptypes);\
+    \
+                // set up the constructor arguments\
+    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+                   ctorargs = new Object[divpos - 1];\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+                for (int i = 0; i < ctorargs.length; i++) \{\
+                    ctorargs[i] = args[i+1];\
+                \}\
+            \}\
+    \
+            // find the right method\
+    \
+            String methodname = args[divpos + 1];\
+            int firstarg = divpos + 2;\
+            Class ptypes[] = \
+                new Class[args.length - firstarg];\
+            for (int i = 0; i < ptypes.length; i++) \{\
+                ptypes[i] = String.class;\
+            \}\
+            meth = cls.getMethod(methodname, ptypes);\
+    \
+            // set up the method arguments\
+    \
+            methargs = new Object[ptypes.length];\
+            for (int i = 0; i < methargs.length; i++) \{\
+                methargs[i] = args[firstarg + i];\
+            \}\
+        \}\
+    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+   // create an object of the specified class\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+    \
+        public void createObject() throws \
+            InstantiationException,\
+            IllegalAccessException, \
+            InvocationTargetException \{\
+        \
+            // if class has no-arg constructor, \
+            // use it\
+    \
+            if (ctor == null) \{\
+                obj = cls.newInstance();\
+            \}\
+    \
+            // otherwise use constructor with arguments\
+    \
+            else \{\
+                obj = ctor.newInstance(ctorargs);\
+            \}\
+        \}\
+    \
+        // call the method and display its return value\
+    \
+        public void callMethod() throws \
+            IllegalAccessException,\
+            InvocationTargetException \{\
+    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+          Object ret = meth.invoke(obj, methargs);\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+            System.out.println("return value: " + ret);\
+        \}\
+    \
+        public static void main(String args[]) \{\
+    \
+            // create a NewDemo instance \
+            // and call the method\
+    \
+            try \{\
+                NewDemo nd;\
+    \
+                nd = new NewDemo(args);\
+                nd.createObject();\
+                nd.callMethod();\
+            \}\
+    \
+            // display any resulting exception\
+    \
+            catch (Exception e) \{\
+                System.out.println(e);\
+                System.exit(1);\
+            \}\
+        \}\
+    \}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+Here is a test class you can use with the demo: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    public class A \{\
+        public A() \{\
+            System.out.println("call: A.A()");\
+        \}\
+        public A(String s1, String s2) \{\
+            System.out.println(\
+                "call: A.A(" + s1 + "," + s2 + ")");\
+        \}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+          public void f1() \{\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+            System.out.println("call: A.f1()");\
+        \}\
+        public double f2(\
+            String s1, String s2, String s3) \{\
+            System.out.println("call: A.f2(" + s1 + "," + s2 +\
+                    "," + s3 + ")");\
+            return 12.34;\
+        \}\
+    \}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+You need to compile this class in the usual way. \
+The 
+\f1 \expnd0\expndtw0\kerning0
+NewDemo
+\f0 \expnd0\expndtw0\kerning0
+ constructor is used to parse the input line, to find the 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ object for the specified class, and to find the appropriate constructor and method. Then 
+\f1 \expnd0\expndtw0\kerning0
+createObject
+\f0 \expnd0\expndtw0\kerning0
+ is called to create an instance of the class. Finally, 
+\f1 \expnd0\expndtw0\kerning0
+callMethod
+\f0 \expnd0\expndtw0\kerning0
+ is used to actually call the method for the class instance. \
+The constructor and method are found by creating a 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ vector that contains the types of each parameter to the constructor or method. This example takes the liberty of assuming that all parameters are of String type, and thus the corresponding 
+\f1 \expnd0\expndtw0\kerning0
+java.lang.Class
+\f0 \expnd0\expndtw0\kerning0
+ object is "String.class". Then 
+\f1 \expnd0\expndtw0\kerning0
+getConstructor
+\f0 \expnd0\expndtw0\kerning0
+ and 
+\f1 \expnd0\expndtw0\kerning0
+getMethod
+\f0 \expnd0\expndtw0\kerning0
+ are used to find the actual constructor or method to use. \
+If you run the driver, by saying: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    java NewDemo A @ f1\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+The output is: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    call: A.A()\
+    call: A.f1()\
+    return value: null\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+Here are additional driver runs: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    java NewDemo A @ f2 str1 str2 str3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1\b0 \cf3 \expnd0\expndtw0\kerning0
+    java NewDemo A str4 str5 @ f1\
+\
+    java NewDemo A str6 str7 @ f2 str8 str9 str10\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+And here are their respective results: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    call: A.A()\
+    call: A.f2(str1,str2,str3)\
+    return value: 12.34\
+\
+    call: A.A(str4,str5)\
+    call: A.f1()\
+    return value: null\
+\
+    call: A.A(str6,str7)\
+    call: A.f2(str8,str9,str10)\
+    return value: 12.34\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+Some examples of driver runs with bad input are: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    java NewDemo\
+    java NewDemo A\
+    java NewDemo A @\
+    java NewDemo A str1 @ f1\
+    java NewDemo A @ f1 str1\
+    java NewDemo B @ f1\
+    java NewDemo A str11 str12 @\
+    java NewDemo A @ f3 str1\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\f0 \cf3 \expnd0\expndtw0\kerning0
+The results are: \
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\tx8140\pardeftab720\pardirnatural
+
+\f1 \cf3 \expnd0\expndtw0\kerning0
+    java.lang.IllegalArgumentException: bad syntax\
+    java.lang.IllegalArgumentException: bad syntax\
+    java.lang.IllegalArgumentException: bad syntax\
+    java.lang.NoSuchMethodException\
+    java.lang.NoSuchMethodException: f1\
+    java.lang.ClassNotFoundException: B\
+    java.lang.IllegalArgumentException: bad syntax\
+    java.lang.NoSuchMethodException: f3\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\sa100\pardirnatural
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+ The techniques illustrated here are extremely powerful, and allow you to manipulate types and methods by name at run time. These techniques are used by tools such as interpreters, debuggers, and object exercisers. \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural
+
+\b0 \cf3 \expnd0\expndtw0\kerning0
+For more information about using reflection to create class instances see section 11.2.1, The Class class, and section 11.2.6, The Method Class, in "{\field{\*\fldinst{HYPERLINK "http://bulkmail2.sun.com/ctservlet?id=1042218004355"}}{\fldrslt \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 The Java
+\fs20 \expnd0\expndtw0\kerning0
+\super TM
+\fs30 \expnd0\expndtw0\kerning0
+\nosupersub  Programming Language Third Edition}}" by Arnold, Gosling, and Holmes. \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\qr
+\cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 back to top\expnd0\expndtw0\kerning0
+\ulnone  \
+}
