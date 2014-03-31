@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * ReadCode is responsible for prompting the user for an integer
+ * and then storing it onto the run time stack
+*/
 public class ReadCode extends ByteCode {
 
   public void loadArgs(Vector<String> args){

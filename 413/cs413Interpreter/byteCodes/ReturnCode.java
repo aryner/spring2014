@@ -3,6 +3,12 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * ReturnCode is responsible for removing the current frame, placing
+ * the top element of the current frame onto the frame we are returning
+ * to and setting the pc back to the instruction just after the function
+ * call
+*/
 public class ReturnCode extends ByteCode {
   String arg;
   String pos;

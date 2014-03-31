@@ -3,6 +3,11 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * The CallCode class is responsible for saving the return
+ * location for the program counter and changing the program
+ * counter to the location of the function being called
+*/
 public class CallCode extends ByteCode {
   String arg;
   String pos;

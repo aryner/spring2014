@@ -7,6 +7,11 @@ import java.lang.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The ByteCodeLoader class reads the file that contains the byte code
+ * program and uses the codeTable to generate its byte codes and then
+ * load them into the program
+*/
 public class ByteCodeLoader {
   Boolean EOF;
   BufferedReader codeFile;

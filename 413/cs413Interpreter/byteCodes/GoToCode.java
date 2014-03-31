@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * The GoToCode class is responsible for setting the
+ * program counter to a new location
+*/
 public class GoToCode extends ByteCode {
   String arg;
 

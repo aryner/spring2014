@@ -3,6 +3,12 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * The BopCode class is responsible for taking the top
+ * two spots on the run time stack and preforming a binary
+ * operation on them, placing the result in their place
+ * on the stack
+*/
 public class BopCode extends ByteCode {
   String arg;
 

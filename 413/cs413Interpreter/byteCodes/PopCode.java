@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * PopCode class is responsible for removing the top element
+ * from the run time stack
+*/
 public class PopCode extends ByteCode {
   String arg;
 

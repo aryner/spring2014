@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * WriteCode writes the contents of the top of the stack onto
+ * standard output.
+*/
 public class WriteCode extends ByteCode {
 
   public void loadArgs(Vector<String> args){

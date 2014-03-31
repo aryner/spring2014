@@ -4,6 +4,11 @@ import java.lang.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The CodeTable class contains the hash map for each byte code
+ * to its byte code class so we can use reflections to instantiate
+ * byte code classes.
+*/
 public class CodeTable {
   private static java.util.HashMap<String, String> codes = new java.util.HashMap<String, String>();
 

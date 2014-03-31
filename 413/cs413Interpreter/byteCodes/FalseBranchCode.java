@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * The FalseBranchCode class is responsible for branching
+ * to a new spot in the program if the top of the stack is 0
+*/
 public class FalseBranchCode extends ByteCode {
   String arg;
 

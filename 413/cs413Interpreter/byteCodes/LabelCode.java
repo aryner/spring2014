@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * LabelCode class is responsible for holding the postion
+ * of any branches to the label
+*/
 public class LabelCode extends ByteCode {
   String arg;
   int location;

@@ -3,6 +3,10 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * LitCode class is responsible for loading integers onto
+ * the run time stack
+*/
 public class LitCode extends ByteCode {
   String literal;
   String var;

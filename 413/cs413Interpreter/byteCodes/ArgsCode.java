@@ -3,6 +3,11 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * The ArgsCode class is responsible for starting a new frame
+ * on the run time stack and loading it with the appropriate
+ * arguments
+*/
 public class ArgsCode extends ByteCode {
   String numArgs;
 

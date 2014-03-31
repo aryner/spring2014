@@ -3,6 +3,11 @@ package byteCodes;
 import java.util.*;
 import virtualMachine.VirtualMachine;
 
+/**
+ * StoreCode stores the contents of the top of the stack into
+ * the contents of a location in the stack based off of the current
+ * frame pointer and an offset
+*/
 public class StoreCode extends ByteCode {
   int offset;
   String id;
