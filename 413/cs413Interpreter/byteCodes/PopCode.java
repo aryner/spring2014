@@ -1,7 +1,7 @@
 package byteCodes;
 
 import java.util.*;
-import virtualMachine.VirtualMachine;
+import interpreter.*;
 
 /**
  * PopCode class is responsible for removing the top element

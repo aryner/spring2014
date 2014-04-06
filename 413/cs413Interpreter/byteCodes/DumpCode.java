@@ -1,7 +1,7 @@
 package byteCodes;
 
 import java.util.*;
-import virtualMachine.VirtualMachine;
+import interpreter.*;
 
 /**
  * The DumpCode class is respnsible for switching on and off

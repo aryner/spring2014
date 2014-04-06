@@ -1,7 +1,7 @@
 package byteCodes;
 
 import java.util.*;
-import virtualMachine.VirtualMachine;
+import interpreter.*;
 
 /**
  * The ByteCode abstract class is the parent of all byte code classes

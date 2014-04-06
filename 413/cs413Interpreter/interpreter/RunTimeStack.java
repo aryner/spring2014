@@ -1,4 +1,4 @@
-package runTimeStack;
+package interpreter;
 
 import java.util.*;
 

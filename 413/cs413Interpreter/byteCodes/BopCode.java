@@ -1,7 +1,7 @@
 package byteCodes;
 
 import java.util.*;
-import virtualMachine.VirtualMachine;
+import interpreter.*;
 
 /**
  * The BopCode class is responsible for taking the top

@@ -1,7 +1,7 @@
 package byteCodes;
 
 import java.util.*;
-import virtualMachine.VirtualMachine;
+import interpreter.*;
 
 /**
  * The FalseBranchCode class is responsible for branching

@@ -2,10 +2,6 @@ package interpreter;
 
 import java.io.*;
 import byteCodes.*;
-import byteCodeLoader.ByteCodeLoader;
-import program.Program;
-import virtualMachine.VirtualMachine;
-import codeTable.CodeTable;
 
 /**
  * <pre>

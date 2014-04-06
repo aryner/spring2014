@@ -1,10 +1,7 @@
-package virtualMachine;
+package interpreter;
 
-import byteCodes.*;
-import byteCodeLoader.ByteCodeLoader;
-import program.Program;
-import runTimeStack.RunTimeStack;
 import java.util.*;
+import byteCodes.*;
 
 /**
  * The VirtualMachine class is respnosible for executing

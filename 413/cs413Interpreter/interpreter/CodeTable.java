@@ -1,4 +1,4 @@
-package codeTable;
+package interpreter;
 
 import java.lang.*;
 import java.io.*;

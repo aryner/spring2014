@@ -1,9 +1,8 @@
-package program;
+package interpreter;
 
 import java.lang.*;
 import java.util.*;
 import byteCodes.*;
-import codeTable.CodeTable;
 
 /**
  * The Program class holds the programs byte codes and

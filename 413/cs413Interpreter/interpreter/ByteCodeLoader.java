@@ -1,8 +1,6 @@
-package byteCodeLoader;
+package interpreter;
 
 import byteCodes.*;
-import codeTable.CodeTable;
-import program.Program;
 import java.lang.*;
 import java.io.*;
 import java.util.*;
