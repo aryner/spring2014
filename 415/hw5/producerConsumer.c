@@ -48,11 +48,6 @@ int main(int arc, char **argv)
   if(sem_init(&empty, 0, bufferSize) == -1) {
     printf("workz!! %d\n",errno );
   }
-int value;
-sem_getvalue(&full, &value);
-printf("********full = %d\n",value);
-sem_getvalue(&empty, &value);
-printf("********empty = %d\n",value);
 
   pthread_attr_t attr;
   pthread_attr_init(&attr);
@@ -60,43 +55,45 @@ printf("********empty = %d\n",value);
   pthread_t consumers[numConsumers];
   struct producerInfo pInfo[numProducers];
   struct consumerInfo cInfo[numConsumers];
-
-  for(int i=0; i<numProducers; i++) {
+ 
+  int i;
+  for(i=0; i<numProducers; i++) {
     pInfo[i].threadNumber = i+1;
     pInfo[i].counter = 0;
     pInfo[i].toProduce = amountProduced;
-    pInfo[i].buff = buffer;
+    pInfo[i].buff = &buffer;
     pInfo[i].bufferSize = bufferSize;
   }
-  for(int i=0; i<numConsumers; i++) {
+  for(i=0; i<numConsumers; i++) {
     cInfo[i].threadNumber = i+1;
     cInfo[i].toConsume = (numProducers * amountProduced) / numConsumers;
-    cInfo[i].buff = buffer;
-    pInfo[i].bufferSize = bufferSize;
+    cInfo[i].buff = &buffer;
+    cInfo[i].bufferSize = bufferSize;
     if(i == 0 && (numProducers*amountProduced)%numConsumers != 0){
       cInfo[i].toConsume++;
     }
   }
 
-  for(int i=0; i<numProducers; i++) {
+  for(i=0; i<numProducers; i++) {
     pthread_create(&producers[i], &attr, producerFunc, &pInfo[i]);
   }
-  for(int i=0; i<numConsumers; i++) {
+  for(i=0; i<numConsumers; i++) {
     pthread_create(&consumers[i], &attr, consumerFunc, &cInfo[i]);
   }
 
   pthread_attr_destroy(&attr);
  
-  for(int i=0; i<numProducers; i++) {
+  for(i=0; i<numProducers; i++) {
     pthread_join(producers[i], NULL);
   }
-  for(int i=0; i<numConsumers; i++) {
+  for(i=0; i<numConsumers; i++) {
     pthread_join(consumers[i], NULL);
   }
 
   pthread_mutex_destroy(&lock);
   sem_destroy(&full);
   sem_destroy(&empty);
+  printf("****All jobs finished***\n");
 }
 
 static void *consumerFunc(void *info) {
@@ -111,10 +108,6 @@ int value;
       fflush(stdout);
     pthread_mutex_unlock(&lock);
     sem_post(&empty);
-sem_getvalue(&full, &value);
-printf("********full = %d\n",value);
-sem_getvalue(&empty, &value);
-printf("********empty = %d\n",value);
   }
   pthread_exit(NULL);
 }
@@ -132,10 +125,6 @@ int value;
       fflush(stdout);
     pthread_mutex_unlock(&lock);
     sem_post(&full);
-sem_getvalue(&full, &value);
-printf("********full = %d\n",value);
-sem_getvalue(&empty, &value);
-printf("********empty = %d\n",value);
   }
   pthread_exit(NULL);
 }
