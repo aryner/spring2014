@@ -69,9 +69,10 @@ int main(int arc, char **argv)
     cInfo[i].toConsume = (numProducers * amountProduced) / numConsumers;
     cInfo[i].buff = &buffer;
     cInfo[i].bufferSize = bufferSize;
-    if(i == 0 && (numProducers*amountProduced)%numConsumers != 0){
-      cInfo[i].toConsume++;
-    }
+  }
+  int remainder = (numProducers*amountProduced)%numConsumers;
+  for(i=0; i<remainder; i++) {
+    cInfo[i].toConsume++;
   }
 
   for(i=0; i<numProducers; i++) {
