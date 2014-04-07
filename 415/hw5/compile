@@ -1,0 +1,2 @@
+akee@akee-1005HA:~/school/spring2014/415/hw5$ gcc -pthread -w producerConsumer.c
+akee@akee-1005HA:~/school/spring2014/415/hw5$ 
