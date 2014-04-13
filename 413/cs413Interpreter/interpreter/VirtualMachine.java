@@ -15,15 +15,15 @@ import byteCodes.*;
 */
 
 public class VirtualMachine {
-  RunTimeStack runStack;
-  int pc;
-  Stack<String> returnAddr;
-  boolean isRunning;
-  boolean dump;
-  Program program;
-  String currStack;
-  String currCode;
-  Stack<Integer> returnLocal;
+  protected RunTimeStack runStack;
+  protected int pc;
+  protected Stack<String> returnAddr;
+  protected boolean isRunning;
+  protected boolean dump;
+  protected Program program;
+  protected String currStack;
+  protected String currCode;
+  protected Stack<Integer> returnLocal;
 
   public VirtualMachine(Program prog) {
     returnLocal = new Stack<Integer>();

@@ -2,6 +2,7 @@ package interpreter;
 
 import java.io.*;
 import byteCodes.*;
+import interpreter.debugger.*;
 
 /**
  * <pre>
@@ -20,11 +21,22 @@ import byteCodes.*;
 public class Interpreter {
 
 	ByteCodeLoader bcl;
+        String src;
 
 	public Interpreter(String codeFile) {
 		try {
 			CodeTable.init();
 			bcl = new ByteCodeLoader(codeFile);
+		} catch (IOException e) {
+			System.out.println("**** " + e);
+		}
+	}
+
+	public Interpreter(String codeFile, String sourceFile) {
+		try {
+			CodeTable.init();
+			bcl = new ByteCodeLoader(codeFile);
+                        src = sourceFile;
 		} catch (IOException e) {
 			System.out.println("**** " + e);
 		}
@@ -36,11 +48,27 @@ public class Interpreter {
 		vm.executeProgram();
 	}
 
+        void debug() {
+          try{
+            Program program = bcl.loadCodes();
+            DebugVM vm = new DebugVM(program, src);
+            vm.startUI();
+          }
+          catch(IOException e) {
+	    System.out.println("**** " + e);
+          }
+        }
+
 	public static void main(String args[]) {
 		if (args.length == 0) {
 			System.out.println("***Incorrect usage, try: java interpreter.Interpreter <file>");
 			System.exit(1);
 		}
-		(new Interpreter(args[0])).run();
+                if(args[0].equals("-d")) {
+                  (new Interpreter(args[1]+".x.cod",args[1]+".x")).debug();
+                }
+                else {
+		  (new Interpreter(args[0])).run();
+                }
 	}
 }
