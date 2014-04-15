@@ -42,6 +42,10 @@ public class DebugVM extends VirtualMachine {
     }
   }
 
+  public void quit() {
+    isRunning = false;
+  }
+
   private void loadSource(BufferedReader file, Boolean EOF) {
     while(!EOF) {
       try{
@@ -58,10 +62,22 @@ public class DebugVM extends VirtualMachine {
     }
   }
 
+  public void clearBreaks() {
+    for(int i=0; i<isBreakptSet.size(); i++) {
+      isBreakptSet.set(i, false);
+    }
+  }
+
   public Vector<String> getSource() {
     return sourceLine;
   }
   public Vector<Boolean> getBreaks() {
     return isBreakptSet;
+  }
+
+  public void setBreaks(int[] brks) {
+    for(int i=0; i<brks.length; i++) {
+      isBreakptSet.set(brks[i], true);
+    }
   }
 }
