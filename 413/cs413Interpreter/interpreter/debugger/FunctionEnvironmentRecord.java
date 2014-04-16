@@ -103,7 +103,7 @@ public class FunctionEnvironmentRecord {
 
     return result;
   }
-
+/*
 //Test of FunctionEnvironmentRecord
   public static void main(String[] args) {
     FunctionEnvironmentRecord record = new FunctionEnvironmentRecord();
@@ -144,4 +144,5 @@ public class FunctionEnvironmentRecord {
     record.pop(1);
     System.out.println(record.toString());
   }
+*/
 }

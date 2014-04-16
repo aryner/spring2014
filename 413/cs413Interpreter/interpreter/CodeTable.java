@@ -28,10 +28,24 @@ public class CodeTable {
     codes.put("RETURN", "ReturnCode");
     codes.put("STORE", "StoreCode");
     codes.put("WRITE", "WriteCode");
+    codes.put("FORMAL", "FormalCode");
+    codes.put("FUNCTION", "FunctionCode");
+    codes.put("LINE", "LineCode");
   }
 
   public static void init() {
     new CodeTable();
+  }
+
+  public static void debugInit() {
+    new CodeTable().debug();
+  }
+
+  private static void debug() {
+    codes.put("CALL", "debuggerByteCodes.DebugCallCode");
+    codes.put("LIT",  "debuggerByteCodes.DebugLitCode");
+    codes.put("POP", "debuggerByteCodes.DebugPopCode");
+    codes.put("RETURN", "debuggerByteCodes.DebugReturnCode");
   }
   
   public static String get(String code) {

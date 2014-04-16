@@ -34,7 +34,7 @@ public class Interpreter {
 
 	public Interpreter(String codeFile, String sourceFile) {
 		try {
-			CodeTable.init();
+			CodeTable.debugInit();
 			bcl = new ByteCodeLoader(codeFile);
                         src = sourceFile;
 		} catch (IOException e) {

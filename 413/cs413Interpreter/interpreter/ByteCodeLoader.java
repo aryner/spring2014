@@ -1,6 +1,7 @@
 package interpreter;
 
 import byteCodes.*;
+import byteCodes.debuggerByteCodes.*;
 import java.lang.*;
 import java.io.*;
 import java.util.*;

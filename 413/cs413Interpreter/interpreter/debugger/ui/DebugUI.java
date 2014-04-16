@@ -61,10 +61,28 @@ public class DebugUI {
     String breaks = input.nextLine();
     String[] breaksArray = breaks.split("\\s");
     int[] breakPts = new int[breaksArray.length];
+    int invalids = 0;
     for(int i=0; i<breaksArray.length; i++) {
-      breakPts[i] = Integer.parseInt(breaksArray[i]) - 1;
+      if(isValidBreak(i, vm)){
+        breakPts[i] = Integer.parseInt(breaksArray[i]) - 1;
+      }
+      else {
+        invalids++;
+        if(invalids > 1) {
+          System.out.print("The following lines are invalid for break points:");
+        }
+        System.out.print(" "+i);
+      }
+    }
+    if(invalids > 0) {
+      System.out.println();
     }
     vm.setBreaks(breakPts);
+  }
+
+  private static Boolean isValidBreak(int num, DebugVM vm) {
+//stubbin
+    return true;
   }
 
   private static void displaySource(Vector<String> src, Vector<Boolean> breaks) {
