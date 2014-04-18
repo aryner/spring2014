@@ -54,6 +54,10 @@ public class Program {
     pc++;
   }
 
+  public int size() {
+    return program.size();
+  }
+
 /**
  * Resolves the address of each branch instruction
 */

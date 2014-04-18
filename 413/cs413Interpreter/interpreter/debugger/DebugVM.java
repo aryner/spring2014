@@ -11,6 +11,8 @@ public class DebugVM extends VirtualMachine {
   Vector<String> sourceLine;
   Vector<Boolean> isBreakptSet;
   Stack<FunctionEnvironmentRecord> funcEnvRecord;
+  LineCode lineCheck;
+  Vector<Integer> lines;
 
   public DebugVM(Program prog, String src) throws FileNotFoundException{
     super(prog);
@@ -23,6 +25,30 @@ public class DebugVM extends VirtualMachine {
     BufferedReader file = new BufferedReader(new FileReader(src));  
     loadSource(file, false);
     funcEnvRecord = new Stack<FunctionEnvironmentRecord>();
+    newFuncEnvRecord();
+    lineCheck = new LineCode();
+    lines = loadLines();
+  }
+
+  private Vector<Integer> loadLines() {
+    Vector<Integer> result = new Vector<Integer>();
+    for(int i=0; i<super.program.size(); i++) {
+      ByteCode temp = super.program.getCode(i);
+      if(lineCheck.getClass().isInstance(temp)) {
+        result.add(Integer.parseInt(temp.getArg()));
+      }
+    }
+    return result;
+  }
+
+  public Boolean isValidBreak(int num) {
+    Boolean result = false;
+    for(int i=0; i<lines.size() && !result; i++) {
+      if(lines.get(i) == num) {
+        result = true;
+      }
+    }
+    return result;
   }
 
   public void startUI() {
@@ -31,12 +57,12 @@ public class DebugVM extends VirtualMachine {
 
   public void executeProgram() {
     while (isRunning) {
-/*
-      if(isBreakptSet.get(***********)) {
+      if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
+        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false); 
         DebugUI.menu(this);
         break;
       }
-*/
+
       ByteCode code = program.getCode(pc);
       code.execute(this);
       if(dump) {
@@ -49,6 +75,37 @@ public class DebugVM extends VirtualMachine {
     } 
   }
 
+  public Vector<String> getVars() {
+System.out.println(funcEnvRecord.peek().toString());
+    Vector<String> result = funcEnvRecord.peek().getIDs();
+    Vector<Integer> offset = funcEnvRecord.peek().getOffset();
+    for(int i=0; i<result.size(); i++) {
+      result.set(i, result.get(i)+":"+super.runStack.get(i));
+    }
+    return result;
+  }
+
+  public FunctionEnvironmentRecord getRecord() {
+    return funcEnvRecord.peek();
+  }
+
+  public Vector<Boolean> getCurrBreaks() {
+    Vector<Boolean> result = new Vector<Boolean>();
+    result.add(false);
+    result.add(false);
+    for(int i=getStart()-1; i<getEnd(); i++) {
+      result.add(isBreakptSet.get(i));
+    }
+    return result;
+  }
+
+  public Vector<String> getCurrFunc() {
+    Vector<String> result = new Vector<String>();
+    for(int i=getStart()-1; i<getEnd(); i++) {
+      result.add(sourceLine.get(i));
+    }
+    return result;
+  }
 
   public String getName() {
     return funcEnvRecord.peek().getName(); 

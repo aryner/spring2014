@@ -14,10 +14,13 @@ public class LineCode extends ByteCode {
 
   public void execute(VirtualMachine vm) {
     try{
-      ((DebugVM)vm).newFuncEnvRecord();
       ((DebugVM)vm).lineFuncEnvRecord(lineNum);
     }
     catch(Exception e) {}
+  }
+
+  public String getArg() {
+    return ""+lineNum;
   }
 
   public String toString() {

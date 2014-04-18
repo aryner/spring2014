@@ -1,5 +1,7 @@
 package interpreter.debugger;
 
+import java.util.*;
+
 public class FunctionEnvironmentRecord {
   private SymbolTable varTable;
   int startLine;
@@ -70,6 +72,14 @@ public class FunctionEnvironmentRecord {
 
   public String getName() {
     return name;
+  }
+
+  public Vector<String> getIDs() {
+    return varTable.getIDs();
+  }
+
+  public Vector<Integer> getOffset() {
+    return varTable.getOffsets();
   }
 
   public String toString() {

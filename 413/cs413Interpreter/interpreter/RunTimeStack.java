@@ -38,30 +38,24 @@ public class RunTimeStack {
       frameEnd = -1;
     }
     while(pos < runStack.size()) {
-//      System.out.print("[");
       result += "[";
       if(frameEnd == -1) {
         while(pos < runStack.size()-1) {
-//          System.out.print(runStack.get(pos) + ",");
           result += runStack.get(pos) + ",";
           pos++;
         }
-//        System.out.print(runStack.get(pos)+"] ");
         result += runStack.get(pos)+"] ";
         pos++;
       }
       else {
         while(pos < frameEnd-1) {
-//          System.out.print(runStack.get(pos) + ",");
           result += runStack.get(pos) + ",";
           pos++;
         }
         if(pos < frameEnd){
-//          System.out.print(runStack.get(pos));
           result += runStack.get(pos);
           pos++;
         }
-//        System.out.print("] ");
         result += "]";
       }
       if(stackIt.hasNext()) {
@@ -71,8 +65,15 @@ public class RunTimeStack {
         frameEnd = -1;
       }
     }
-//    System.out.println();
     return result;
+  }
+
+  public int getCurrentOffset() {
+    return runStack.size() - framePointers.peek();
+  }
+
+  public int get(int i) {
+    return runStack.get(i);
   }
 
   public int peek() {

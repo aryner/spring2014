@@ -70,6 +70,24 @@ public class SymbolTable {
     marks = marks.getTail();
   }
 
+  public Vector<String> getIDs() {
+    Symbol[] keys = keys().toArray(new Symbol[symbols.size()]);
+    Vector<String> result = new Vector<String>();
+    for(int i=0; i<keys.length; i++) {
+      result.add(keys[i].toString());
+    }
+    return result;
+  }
+
+  public Vector<Integer> getOffsets() {
+    Symbol[] keys = keys().toArray(new Symbol[symbols.size()]);
+    Vector<Integer> result = new Vector<Integer>();
+    for(int i=0; i<keys.length; i++) {
+      result.add(get(keys[i]));
+    }
+    return result;
+  }
+
   public String toString() {
     String result = "(";
 

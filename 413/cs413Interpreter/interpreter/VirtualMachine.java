@@ -101,6 +101,14 @@ public class VirtualMachine {
     return runStack.getFrame();
   }
 
+  public int getOffset(int i) {
+    return runStack.get(i);
+  }
+
+  public int getCurrentOffset() {
+    return runStack.getCurrentOffset();
+  }
+
   public void setReturn(int local) {
     returnLocal.push(local);
   }
