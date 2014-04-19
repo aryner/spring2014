@@ -80,8 +80,12 @@ public class DebugVM extends VirtualMachine {
   public Vector<String> getVars() {
     Vector<String> result = funcEnvRecord.peek().getIDs();
     Vector<Integer> offset = funcEnvRecord.peek().getOffset();
+    int offS = -1;
+    if (super.framePeek() > 0) {
+      offS++;
+    }
     for(int i=0; i<result.size(); i++) {
-      result.set(i, result.get(i)+":"+super.runStack.get(i));
+      result.set(i, result.get(i)+":"+super.runStack.get(offset.get(i)+offS+super.framePeek()));
     }
     return result;
   }
@@ -166,9 +170,11 @@ public class DebugVM extends VirtualMachine {
 
   public  void endScope() {
     funcEnvRecord.peek().endScope();
+    funcEnvRecord.pop();
   }
 
   public void beginScope() {
+    funcEnvRecord.push(new FunctionEnvironmentRecord());
     funcEnvRecord.peek().beginScope();
   }
 
