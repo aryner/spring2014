@@ -57,11 +57,6 @@ public class DebugVM extends VirtualMachine {
 
   public void executeProgram() {
     while (isRunning) {
-      if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
-        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false); 
-        DebugUI.menu(this);
-        break;
-      }
 
       ByteCode code = program.getCode(pc);
       code.execute(this);
@@ -72,11 +67,17 @@ public class DebugVM extends VirtualMachine {
         }
       }
       pc++;
+
+      if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
+        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false); 
+        DebugUI.start(this);
+        break;
+      }
+
     } 
   }
 
   public Vector<String> getVars() {
-System.out.println(funcEnvRecord.peek().toString());
     Vector<String> result = funcEnvRecord.peek().getIDs();
     Vector<Integer> offset = funcEnvRecord.peek().getOffset();
     for(int i=0; i<result.size(); i++) {

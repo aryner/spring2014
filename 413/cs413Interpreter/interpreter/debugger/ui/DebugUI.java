@@ -6,7 +6,7 @@ import java.util.*;
 
 public class DebugUI {
   public static void start(DebugVM vm) {
-    displaySource(vm.getSource(), vm.getBreaks(), vm.getCurr());
+    displayFunction(vm);
     menu(vm);
   }
 
@@ -98,11 +98,11 @@ public class DebugUI {
     int line = vm.getCurr();
 
     for(int i=0; i<src.size(); i++) {
-      if(breaks.get(i+vm.getStart()+offS)) {
-        System.out.print("*");
-      }
-      else if((i+vm.getStart()) == line) {
+      if((i+vm.getStart()) == line) {
         System.out.print(">");
+      }
+      else if(breaks.get(i+vm.getStart()+offS)) {
+        System.out.print("*");
       }
       else{
         System.out.print(" ");
@@ -153,11 +153,11 @@ public class DebugUI {
 
   private static void displaySource(Vector<String> src, Vector<Boolean> breaks,int line) {
     for(int i=0; i<src.size(); i++) {
-      if(breaks.get(i)) {
-        System.out.print("*");
-      }
-      else if((i+1) == line) {
+      if((i+1) == line) {
         System.out.print(">");
+      }
+      else if(breaks.get(i)) {
+        System.out.print("*");
       }
       else{
         System.out.print(" ");

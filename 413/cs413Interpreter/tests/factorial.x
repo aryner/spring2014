@@ -9,4 +9,3 @@ program {boolean j int i
       i = write(factorial(read()))
   }
 }
-
