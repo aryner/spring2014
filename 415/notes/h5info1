@@ -1,0 +1,2 @@
+ 
+For homework 5, it is fine to use CreateMutex, OpenMutex and ReleaseMutex for the mutex in the Win32 version (instead of a semaphore with a count of 1).

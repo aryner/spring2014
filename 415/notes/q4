@@ -1,0 +1,24 @@
+Semaphores
+Monitors
+  Condition variables
+  Signal and wait vs. signal and continue
+Deadlock
+  Necessary conditions
+  Resource-allocation graph
+Logical vs. physical addresses
+Address binding
+  Compile time
+  Load time
+  Execution time
+Address translation
+  Using base and limit registers
+  Using a page table
+Contiguous memory allocation
+Paging
+  Translation look-aside buffer
+  Protection with valid-invalid bit
+  Shared pages
+SegmentationFragmentation
+  Internal
+  External
+

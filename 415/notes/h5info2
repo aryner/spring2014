@@ -1,0 +1,28 @@
+Two things that totally helped me with the posix side of this assignment that I thought I would share.
+
+1. When dealing with multiple threads printing to I/O it is important to flush the i/o after each printf()
+
+i.e.
+
+printf("Some msg");
+
+fflush(stdout);
+
+In short threads typically run much faster then i/o (interrupt based). So what is likely happening is the threads are processing, they send an i/o message, and then way before that message prints they continue consuming/producing. My output looked super freaky until I did some research and found this simple addition forces a thread to print the i/o before it moves on. 
+
+ 
+
+2. There is a simple command to check the current value of a semaphore. If you are having problems with producers continuing to produce past your available slots try adding the following to check its value to make sure they are inc/dec properly. 
+
+//Assuming there is a semaphore initialized called empty, int called value
+
+sem_getvalue(&empty, &value);
+printf("Empty semaphore value: %d\n", value);
+
+//Make sure to flush after debug statement
+
+fflush(stdout);
+
+ 
+
+Hope this helps. Super cool assignment, I'm sure there are Win32 equivalents to these posix commands so if something weird is happening just do some research.

@@ -1,0 +1,270 @@
+Windows original code
+1 thread:
+C:\Users\Alan\Desktop\415\hw5>winWordCount test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winWordCount test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 62
+Ticks             : 621363
+TotalDays         : 7.19170138888889E-07
+TotalHours        : 1.72600833333333E-05
+TotalMinutes      : 0.001035605
+TotalSeconds      : 0.0621363
+TotalMilliseconds : 62.1363
+
+2 threads:
+C:\Users\Alan\Desktop\415\hw5>winWordCount test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winWordCount test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 25
+Ticks             : 254975
+TotalDays         : 2.95109953703704E-07
+TotalHours        : 7.08263888888889E-06
+TotalMinutes      : 0.000424958333333333
+TotalSeconds      : 0.0254975
+TotalMilliseconds : 25.4975
+
+4 threads:
+C:\Users\Alan\Desktop\415\hw5>winWordCount test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winWordCount test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 29
+Ticks             : 299396
+TotalDays         : 3.46523148148148E-07
+TotalHours        : 8.31655555555556E-06
+TotalMinutes      : 0.000498993333333333
+TotalSeconds      : 0.0299396
+TotalMilliseconds : 29.9396
+
+8 threads:
+C:\Users\Alan\Desktop\415\hw5>winWordCount test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winWordCount test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 26
+Ticks             : 269282
+TotalDays         : 3.11668981481481E-07
+TotalHours        : 7.48005555555555E-06
+TotalMinutes      : 0.000448803333333333
+TotalSeconds      : 0.0269282
+TotalMilliseconds : 26.9282
+
+Global not synchronized:
+1 thread:
+C:\Users\Alan\Desktop\415\hw5>winGlobalUnSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalUnSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 19
+Ticks             : 197935
+TotalDays         : 2.29091435185185E-07
+TotalHours        : 5.49819444444444E-06
+TotalMinutes      : 0.000329891666666667
+TotalSeconds      : 0.0197935
+TotalMilliseconds : 19.7935
+
+2 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalUnSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalUnSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 31
+Ticks             : 311823
+TotalDays         : 3.6090625E-07
+TotalHours        : 8.66175E-06
+TotalMinutes      : 0.000519705
+TotalSeconds      : 0.0311823
+TotalMilliseconds : 31.1823
+
+4 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalUnSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalUnSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 24
+Ticks             : 240368
+TotalDays         : 2.78203703703704E-07
+TotalHours        : 6.67688888888889E-06
+TotalMinutes      : 0.000400613333333333
+TotalSeconds      : 0.0240368
+TotalMilliseconds : 24.0368
+
+8 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalUnSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalUnSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 21
+Ticks             : 216750
+TotalDays         : 2.50868055555556E-07
+TotalHours        : 6.02083333333333E-06
+TotalMinutes      : 0.00036125
+TotalSeconds      : 0.021675
+TotalMilliseconds : 21.675
+
+Synchronized:
+1 thread:
+C:\Users\Alan\Desktop\415\hw5>winGlobalSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 21
+Ticks             : 211530
+TotalDays         : 2.44826388888889E-07
+TotalHours        : 5.87583333333333E-06
+TotalMinutes      : 0.00035255
+TotalSeconds      : 0.021153
+TotalMilliseconds : 21.153
+
+2 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 21
+Ticks             : 213748
+TotalDays         : 2.47393518518519E-07
+TotalHours        : 5.93744444444444E-06
+TotalMinutes      : 0.000356246666666667
+TotalSeconds      : 0.0213748
+TotalMilliseconds : 21.3748
+
+4 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 22
+Ticks             : 223235
+TotalDays         : 2.58373842592593E-07
+TotalHours        : 6.20097222222222E-06
+TotalMinutes      : 0.000372058333333333
+TotalSeconds      : 0.0223235
+TotalMilliseconds : 22.3235
+
+8 threads:
+C:\Users\Alan\Desktop\415\hw5>winGlobalSync test
+192049 words
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winGlobalSync test }
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 24
+Ticks             : 249772
+TotalDays         : 2.89087962962963E-07
+TotalHours        : 6.93811111111111E-06
+TotalMinutes      : 0.000416286666666667
+TotalSeconds      : 0.0249772
+TotalMilliseconds : 24.9772
+
+part 2:
+C:\Users\Alan\Desktop\415\hw5>cl winProducerConsumer.c
+Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+winProducerConsumer.c
+Microsoft (R) Incremental Linker Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:winProducerConsumer.exe
+winProducerConsumer.obj
+
+C:\Users\Alan\Desktop\415\hw5>
+
+C:\Users\Alan\Desktop\415\hw5>winProducerConsumer 4 1 1 1000
+
+C:\Users\Alan\Desktop\415\hw5>vim output1
+
+C:\Users\Alan\Desktop\415\hw5>winProducerConsumer 4 2 2 1000
+
+C:\Users\Alan\Desktop\415\hw5>winProducerConsumer 4 4 4 1000
+
+
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winProducerConsumer 4 1 1 1000 }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 83
+Ticks             : 830577
+TotalDays         : 9.61315972222222E-07
+TotalHours        : 2.30715833333333E-05
+TotalMinutes      : 0.001384295
+TotalSeconds      : 0.0830577
+TotalMilliseconds : 83.0577
+
+
+
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winProducerConsumer 4 2 2 1000 }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 84
+Ticks             : 840280
+TotalDays         : 9.72546296296296E-07
+TotalHours        : 2.33411111111111E-05
+TotalMinutes      : 0.00140046666666667
+TotalSeconds      : 0.084028
+TotalMilliseconds : 84.028
+
+
+
+PS C:\Users\Alan\Desktop\415\hw5> Measure-Command { .\winProducerConsumer 4 4 4 1000 }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 160
+Ticks             : 1604458
+TotalDays         : 1.85701157407407E-06
+TotalHours        : 4.45682777777778E-05
+TotalMinutes      : 0.00267409666666667
+TotalSeconds      : 0.1604458
+TotalMilliseconds : 160.4458
+
+
+
+PS C:\Users\Alan\Desktop\415\hw5>
