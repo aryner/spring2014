@@ -13,6 +13,7 @@ public class DebugVM extends VirtualMachine {
   Stack<FunctionEnvironmentRecord> funcEnvRecord;
   LineCode lineCheck;
   Vector<Integer> lines;
+  int stepOut;
 
   public DebugVM(Program prog, String src) throws FileNotFoundException{
     super(prog);
@@ -25,6 +26,7 @@ public class DebugVM extends VirtualMachine {
     BufferedReader file = new BufferedReader(new FileReader(src));  
     loadSource(file, false);
     funcEnvRecord = new Stack<FunctionEnvironmentRecord>();
+    stepOut = -1;
     newFuncEnvRecord();
     lineCheck = new LineCode();
     lines = loadLines();
@@ -73,8 +75,17 @@ public class DebugVM extends VirtualMachine {
         DebugUI.start(this);
         break;
       }
+      if(funcEnvRecord.size() == stepOut) {
+        stepOut = -1;
+        DebugUI.start(this);
+        break;
+      }
 
     } 
+  }
+
+  public void setStepOut() {
+    stepOut = funcEnvRecord.size() -1;
   }
 
   public Vector<String> getVars() {

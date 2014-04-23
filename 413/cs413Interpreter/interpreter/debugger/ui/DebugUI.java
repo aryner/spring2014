@@ -28,7 +28,12 @@ public class DebugUI {
       case "cont":
         vm.executeProgram();
         break;
-      case "set break":
+      case "stepOut":
+      case "so":
+        stepOut(vm);
+        vm.executeProgram();
+        break;
+      case "setBreak":
       case "sb":
         setBreaks(vm, tokens);
         menu(vm);
@@ -67,11 +72,16 @@ public class DebugUI {
     System.out.println("\thelp,  ?\t\t\tDisplay list of commands");
     System.out.println("\tcontinue, cont\t\t\tContinue execution of program");
     System.out.println("\tsetBreak,  sb\t\t\tStart prompt for line numbers to set break points");
+    System.out.println("\tstepOut,  so\t\t\tStep out of current function");
     System.out.println("\tdisplaySource,  ds\t\tDisplay source program");
     System.out.println("\tclearBreakPoints,  cbp\tRemove all break points");
     System.out.println("\tdisplayVariables,  dv\t\tDisplay current varaiables");
     System.out.println("\tdisplayFunction,  df\t\tDisplay source code of the current function");
     System.out.println("\tquit\t\t\t\tQuit exection of program");
+  }
+
+  private static void stepOut(DebugVM vm) {
+    vm.setStepOut();
   }
 
   private static void displayVars(DebugVM vm) {
