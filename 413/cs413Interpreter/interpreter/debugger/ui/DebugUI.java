@@ -16,8 +16,9 @@ public class DebugUI {
     System.out.println("Type ? for help");
     System.out.print("> ");
     command = input.nextLine();
+    StringTokenizer tokens = new StringTokenizer(command);
 
-    switch(command.trim()) {
+    switch(tokens.nextToken().trim()) {
       case "help":
       case "?":
         help();
@@ -29,25 +30,25 @@ public class DebugUI {
         break;
       case "set break":
       case "sb":
-        setBreaks(vm);
+        setBreaks(vm, tokens);
         menu(vm);
         break;
-      case "display source":
+      case "displaySource":
       case "ds":
         displaySource(vm.getSource(), vm.getBreaks(), vm.getCurr());
         menu(vm);
         break;
-      case "clear break points":
+      case "clearBreakBoints":
       case "cbp":
         clearBreaks(vm);
         menu(vm);
         break;
-      case "display variables":
+      case "displayVariables":
       case "dv":
         displayVars(vm);
         menu(vm);
         break;
-      case "display function":
+      case "displayFunction":
       case "df":
         displayFunction(vm);
         menu(vm);
@@ -65,11 +66,11 @@ public class DebugUI {
   private static void help() {
     System.out.println("\thelp,  ?\t\t\tDisplay list of commands");
     System.out.println("\tcontinue, cont\t\t\tContinue execution of program");
-    System.out.println("\tset break,  sb\t\t\tStart prompt for line numbers to set break points");
-    System.out.println("\tdisplay source,  ds\t\tDisplay source program");
-    System.out.println("\tclear break points,  cbp\tRemove all break points");
-    System.out.println("\tdisplay variables,  dv\t\tDisplay current varaiables");
-    System.out.println("\tdisplay function,  df\t\tDisplay source code of the current function");
+    System.out.println("\tsetBreak,  sb\t\t\tStart prompt for line numbers to set break points");
+    System.out.println("\tdisplaySource,  ds\t\tDisplay source program");
+    System.out.println("\tclearBreakPoints,  cbp\tRemove all break points");
+    System.out.println("\tdisplayVariables,  dv\t\tDisplay current varaiables");
+    System.out.println("\tdisplayFunction,  df\t\tDisplay source code of the current function");
     System.out.println("\tquit\t\t\t\tQuit exection of program");
   }
 
@@ -122,23 +123,23 @@ public class DebugUI {
     vm.clearBreaks();
   }
 
-  private static void setBreaks(DebugVM vm) {
-    Scanner input = new Scanner(System.in);
-    System.out.println("Enter the line numbers you wish to add break points at seperated by spaces");
-    String breaks = input.nextLine();
-    String[] breaksArray = breaks.split("\\s");
-    int[] breakPts = new int[breaksArray.length];
+  private static void setBreaks(DebugVM vm, StringTokenizer tokens) {
+    Vector<Integer> breaksArray = new Vector<Integer>();
+    while(tokens.hasMoreElements()) {
+      breaksArray.add(Integer.parseInt(tokens.nextToken()));
+    }
+    int[] breakPts = new int[breaksArray.size()];
     int invalids = 0;
-    for(int i=0; i<breaksArray.length; i++) {
-      if(isValidBreak(Integer.parseInt(breaksArray[i]), vm)){
-        breakPts[i] = Integer.parseInt(breaksArray[i]) - 1;
+    for(int i=0; i<breaksArray.size(); i++) {
+      if(isValidBreak(breaksArray.get(i), vm)){
+        breakPts[i] = breaksArray.get(i) - 1;
       }
       else {
         invalids++;
         if(invalids <= 1) {
           System.out.print("The following lines are invalid for break points:");
         }
-        System.out.print(" "+breaksArray[i]);
+        System.out.print(" "+breaksArray.get(i));
       }
     }
     if(invalids > 0) {
