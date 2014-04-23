@@ -74,7 +74,7 @@ public class DebugUI {
     System.out.println("\tsetBreak,  sb\t\t\tStart prompt for line numbers to set break points");
     System.out.println("\tstepOut,  so\t\t\tStep out of current function");
     System.out.println("\tdisplaySource,  ds\t\tDisplay source program");
-    System.out.println("\tclearBreakPoints,  cbp\tRemove all break points");
+    System.out.println("\tclearBreakPoints,  cbp\t\ttRemove all break points");
     System.out.println("\tdisplayVariables,  dv\t\tDisplay current varaiables");
     System.out.println("\tdisplayFunction,  df\t\tDisplay source code of the current function");
     System.out.println("\tquit\t\t\t\tQuit exection of program");
