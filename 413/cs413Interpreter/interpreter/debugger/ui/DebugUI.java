@@ -26,12 +26,10 @@ public class DebugUI {
         break;
       case "continue":
       case "cont":
-        vm.executeProgram();
         break;
       case "stepOut":
       case "so":
         stepOut(vm);
-        vm.executeProgram();
         break;
       case "setBreak":
       case "sb":

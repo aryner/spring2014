@@ -52,7 +52,7 @@ public class Interpreter {
           try{
             Program program = bcl.loadCodes();
             DebugVM vm = new DebugVM(program, src);
-            vm.startUI();
+            vm.executeProgram();
           }
           catch(IOException e) {
 	    System.out.println("**** " + e);

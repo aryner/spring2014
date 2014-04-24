@@ -53,11 +53,8 @@ public class DebugVM extends VirtualMachine {
     return result;
   }
 
-  public void startUI() {
-    DebugUI.start(this);
-  }
-
   public void executeProgram() {
+    DebugUI.start(this);
     while (isRunning) {
 
       ByteCode code = program.getCode(pc);
@@ -73,12 +70,10 @@ public class DebugVM extends VirtualMachine {
       if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
         isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false); 
         DebugUI.start(this);
-        break;
       }
       if(funcEnvRecord.size() == stepOut) {
         stepOut = -1;
         DebugUI.start(this);
-        break;
       }
 
     } 
