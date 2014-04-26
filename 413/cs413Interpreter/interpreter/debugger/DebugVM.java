@@ -204,9 +204,19 @@ public class DebugVM extends VirtualMachine {
     }
   }
 
-  public void clearBreaks() {
-    for(int i=0; i<isBreakptSet.size(); i++) {
-      isBreakptSet.set(i, false);
+  public void clearBreaks(Vector<Integer> clrBrks) {
+    if(clrBrks.size() == 0) {
+      for(int i=0; i<isBreakptSet.size(); i++) {
+        isBreakptSet.set(i, false);
+      }
+    }
+    else {
+      
+      for(int i=0; i<clrBrks.size(); i++) {
+        if(clrBrks.get(i) <= lines.get(lines.size()-1)) {
+          isBreakptSet.set(clrBrks.get(i)-1, false);
+        }
+      }
     }
   }
 

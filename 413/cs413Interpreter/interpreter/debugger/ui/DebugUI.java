@@ -43,7 +43,7 @@ public class DebugUI {
         break;
       case "clearBreakBoints":
       case "cbp":
-        clearBreaks(vm);
+        clearBreaks(vm, tokens);
         menu(vm);
         break;
       case "displayVariables":
@@ -67,15 +67,15 @@ public class DebugUI {
   }
 
   private static void help() {
-    System.out.println("\thelp,  ?\t\t\tDisplay list of commands");
-    System.out.println("\tcontinue, cont\t\t\tContinue execution of program");
-    System.out.println("\tsetBreak,  sb\t\t\tStart prompt for line numbers to set break points");
-    System.out.println("\tstepOut,  so\t\t\tStep out of current function");
-    System.out.println("\tdisplaySource,  ds\t\tDisplay source program");
-    System.out.println("\tclearBreakPoints,  cbp\t\ttRemove all break points");
-    System.out.println("\tdisplayVariables,  dv\t\tDisplay current varaiables");
-    System.out.println("\tdisplayFunction,  df\t\tDisplay source code of the current function");
-    System.out.println("\tquit\t\t\t\tQuit exection of program");
+    System.out.println("\thelp,  ?\t\t\t-Display list of commands");
+    System.out.println("\tcontinue, cont\t\t\t-Continue execution of program");
+    System.out.println("\tsetBreak,  sb\t\t\t-Any line numbers seperated \n\t\t\t\t\t  by spaces after this command \n\t\t\t\t\t  will set breakpoints at those lines");
+    System.out.println("\tstepOut,  so\t\t\t-Step out of current function");
+    System.out.println("\tdisplaySource,  ds\t\t-Display source program");
+    System.out.println("\tclearBreakPoints,  cbp\t\t-Remove all break points if \n\t\t\t\t\t  no arguments are given or \n\t\t\t\t\t  clears specific points if line \n\t\t\t\t\t  numbers are given");
+    System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
+    System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
+    System.out.println("\tquit\t\t\t\t-Quit exection of program");
   }
 
   private static void stepOut(DebugVM vm) {
@@ -127,8 +127,12 @@ public class DebugUI {
     }
   }
 
-  private static void clearBreaks(DebugVM vm) {
-    vm.clearBreaks();
+  private static void clearBreaks(DebugVM vm, StringTokenizer tokens) {
+    Vector<Integer> clrBrks = new Vector<Integer>();
+    while(tokens.hasMoreElements()) {
+      clrBrks.add(Integer.parseInt(tokens.nextToken()));
+    }
+    vm.clearBreaks(clrBrks);
   }
 
   private static void setBreaks(DebugVM vm, StringTokenizer tokens) {
