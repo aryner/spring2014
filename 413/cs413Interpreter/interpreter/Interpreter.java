@@ -3,6 +3,7 @@ package interpreter;
 import java.io.*;
 import byteCodes.*;
 import interpreter.debugger.*;
+import interpreter.debugger.ui.*;
 
 /**
  * <pre>
@@ -52,7 +53,8 @@ public class Interpreter {
           try{
             Program program = bcl.loadCodes();
             DebugVM vm = new DebugVM(program, src);
-            vm.executeProgram();
+            DebugUI ui = new DebugUI(vm);
+            ui.start();
           }
           catch(IOException e) {
 	    System.out.println("**** " + e);

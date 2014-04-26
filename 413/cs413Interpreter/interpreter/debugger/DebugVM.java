@@ -64,7 +64,6 @@ public class DebugVM extends VirtualMachine {
   }
 
   public void executeProgram() {
-    DebugUI.start(this);
     while (isRunning) {
 
       ByteCode code = program.getCode(pc);
@@ -78,24 +77,27 @@ public class DebugVM extends VirtualMachine {
       pc++;
 
       if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
-        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false); 
-        DebugUI.start(this);
+        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false);  
+        break;
       }
       if(funcEnvRecord.size() == stepOut) {
         stepOut = -1;
-        DebugUI.start(this);
+        break;
       }
       if(stepOver && funcEnvRecord.size() <= stepOverPos && stepOverLine != getCurr()) {
         stepOver = false;
-        DebugUI.start(this);
+        break;
       }
-      if(stepInto && stepIntoLine != getCurr() && getCurr() != 0 && getCurr() != -1) {
-System.out.println(getCurr());
+      if(stepInto && stepIntoLine != getCurr()) {
         stepInto = false;
-        DebugUI.start(this);
+        break;
       }
 
     } 
+  }
+
+  public boolean isRunning() {
+    return isRunning;
   }
 
   public void setStepInto() {
@@ -107,6 +109,16 @@ System.out.println(getCurr());
     stepOver = true;
     stepOverPos = funcEnvRecord.size();
     stepOverLine = getCurr();
+  }
+
+  public Vector<Integer> listBrkPts() {
+    Vector<Integer> brkList = new Vector<Integer>();
+    for(int i=0; i<isBreakptSet.size(); i++) {
+      if(isBreakptSet.get(i)) {
+        brkList.add(i+1);
+      }
+    }
+    return brkList;
   }
 
   public void setStepOut() {

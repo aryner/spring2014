@@ -5,12 +5,22 @@ import interpreter.debugger.*;
 import java.util.*;
 
 public class DebugUI {
-  public static void start(DebugVM vm) {
-    displayFunction(vm);
-    menu(vm);
+  DebugVM vm;
+
+  public DebugUI(DebugVM dvm) {
+    vm = dvm;
   }
 
-  public static void menu(DebugVM vm) {
+  public void start() {
+    displayFunction();
+    menu();
+    
+    while(vm.isRunning()) {
+      menu();
+    }
+  }
+
+  public void menu() {
     String command;
     Scanner input = new Scanner(System.in);
     System.out.println("Type ? for help");
@@ -22,59 +32,72 @@ public class DebugUI {
       case "help":
       case "?":
         help();
-        menu(vm);
+        menu();
         break;
       case "continue":
       case "cont":
+        vm.executeProgram();
+        displayFunction();
         break;
       case "stepInto":
       case "si":
-        stepInto(vm);
+        stepInto();
+        vm.executeProgram();
+        displayFunction();
         break;
       case "stepOver":
       case "so":
-        stepOver(vm);
+        stepOver();
+        vm.executeProgram();
+        displayFunction();
         break;
       case "stepOut":
       case "sot":
-        stepOut(vm);
+        stepOut();
+        vm.executeProgram();
+        displayFunction();
         break;
       case "setBreak":
       case "sb":
-        setBreaks(vm, tokens);
-        menu(vm);
+        setBreaks(tokens);
+        menu();
+        break;
+      case "listBreakPoints":
+      case "lbpt":
+        listBreaks();
+        menu();
         break;
       case "displaySource":
       case "ds":
         displaySource(vm.getSource(), vm.getBreaks(), vm.getCurr());
-        menu(vm);
+        menu();
         break;
       case "clearBreakBoints":
       case "cbp":
-        clearBreaks(vm, tokens);
-        menu(vm);
+        clearBreaks(tokens);
+        menu();
         break;
       case "displayVariables":
       case "dv":
-        displayVars(vm);
-        menu(vm);
+        displayVars();
+        menu();
         break;
       case "displayFunction":
       case "df":
-        displayFunction(vm);
-        menu(vm);
+        displayFunction();
+        menu();
         break;
       case "quit":
-        quit(vm);
+        quit();
         break;
       default:
         System.out.println("Invalid command");
-        menu(vm);
+        menu();
         break;
     }
   }
 
-  private static void help() {
+  private void help() {
     System.out.println("\thelp,  ?\t\t\t-Display list of commands");
     System.out.println("\tcontinue, cont\t\t\t-Continue execution of program");
     System.out.println("\tsetBreak,  sb\t\t\t-Any line numbers seperated \n\t\t\t\t\t  by spaces after this command \n\t\t\t\t\t  will set breakpoints at those lines");
@@ -83,35 +106,46 @@ public class DebugUI {
     System.out.println("\tstepOut,  sot\t\t\t-Step out of current function");
     System.out.println("\tdisplaySource,  ds\t\t-Display source program");
     System.out.println("\tclearBreakPoints,  cbp\t\t-Remove all break points if \n\t\t\t\t\t  no arguments are given or \n\t\t\t\t\t  clears specific points if line \n\t\t\t\t\t  numbers are given");
+    System.out.println("\tlistBreakPoints,  lbpt\t\t-List current break poitns");
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
     System.out.println("\tquit\t\t\t\t-Quit exection of program");
   }
 
-  private static void stepInto(DebugVM vm) {
+  private void listBreaks() {
+    System.out.print("Break points are set at:");
+    Vector<Integer> brks = vm.listBrkPts();
+    for(int i=0; i< brks.size(); i++) {
+      System.out.print(" "+brks.get(i));
+    }
+    System.out.println();
+  }
+
+  private void stepInto() {
     vm.setStepInto();
   }
 
-  private static void stepOver(DebugVM vm) {
+  private void stepOver() {
     vm.setStepOver();
   }
 
-  private static void stepOut(DebugVM vm) {
+  private void stepOut() {
     vm.setStepOut();
   }
 
-  private static void displayVars(DebugVM vm) {
+  private void displayVars() {
     Vector<String> vars = vm.getVars();
     for(int i=0; i<vars.size(); i++) {
       System.out.println(vars.get(i));
     }
   }
 
-  private static void quit(DebugVM vm) {
+  private void quit() {
+    System.out.println("****Execution Halted****");
     vm.quit();
   }
 
-  private static void displayFunction(DebugVM vm) {
+  private void displayFunction() {
     int offS = 1;
     if(vm.getStart() < 1) {
       displaySource(vm.getSource(), vm.getBreaks(), vm.getCurr());
@@ -145,7 +179,7 @@ public class DebugUI {
     }
   }
 
-  private static void clearBreaks(DebugVM vm, StringTokenizer tokens) {
+  private void clearBreaks(StringTokenizer tokens) {
     Vector<Integer> clrBrks = new Vector<Integer>();
     while(tokens.hasMoreElements()) {
       clrBrks.add(Integer.parseInt(tokens.nextToken()));
@@ -153,7 +187,7 @@ public class DebugUI {
     vm.clearBreaks(clrBrks);
   }
 
-  private static void setBreaks(DebugVM vm, StringTokenizer tokens) {
+  private void setBreaks(StringTokenizer tokens) {
     Vector<Integer> breaksArray = new Vector<Integer>();
     while(tokens.hasMoreElements()) {
       breaksArray.add(Integer.parseInt(tokens.nextToken()));
@@ -161,7 +195,7 @@ public class DebugUI {
     int[] breakPts = new int[breaksArray.size()];
     int invalids = 0;
     for(int i=0; i<breaksArray.size(); i++) {
-      if(isValidBreak(breaksArray.get(i), vm)){
+      if(isValidBreak(breaksArray.get(i))){
         breakPts[i] = breaksArray.get(i) - 1;
       }
       else {
@@ -178,11 +212,11 @@ public class DebugUI {
     vm.setBreaks(breakPts);
   }
 
-  private static Boolean isValidBreak(int num, DebugVM vm) {
+  private Boolean isValidBreak(int num ) {
     return vm.isValidBreak(num);
   }
 
-  private static void displaySource(Vector<String> src, Vector<Boolean> breaks,int line) {
+  private void displaySource(Vector<String> src, Vector<Boolean> breaks,int line) {
     for(int i=0; i<src.size(); i++) {
       if((i+1) == line) {
         System.out.print(">");
