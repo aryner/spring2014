@@ -14,6 +14,9 @@ public class DebugVM extends VirtualMachine {
   LineCode lineCheck;
   Vector<Integer> lines;
   int stepOut;
+  int stepOverPos;
+  int stepOverLine;
+  boolean stepOver;
 
   public DebugVM(Program prog, String src) throws FileNotFoundException{
     super(prog);
@@ -27,6 +30,9 @@ public class DebugVM extends VirtualMachine {
     loadSource(file, false);
     funcEnvRecord = new Stack<FunctionEnvironmentRecord>();
     stepOut = -1;
+    stepOverPos = -1;
+    stepOverLine = -1;
+    stepOver = false;
     newFuncEnvRecord();
     lineCheck = new LineCode();
     lines = loadLines();
@@ -75,8 +81,18 @@ public class DebugVM extends VirtualMachine {
         stepOut = -1;
         DebugUI.start(this);
       }
+      if(stepOver && funcEnvRecord.size() <= stepOverPos && stepOverLine != getCurr()) {
+        stepOver = false;
+        DebugUI.start(this);
+      }
 
     } 
+  }
+
+  public void setStepOver() {
+    stepOver = true;
+    stepOverPos = funcEnvRecord.size();
+    stepOverLine = getCurr();
   }
 
   public void setStepOut() {
