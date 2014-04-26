@@ -17,6 +17,8 @@ public class DebugVM extends VirtualMachine {
   int stepOverPos;
   int stepOverLine;
   boolean stepOver;
+  int stepIntoLine;
+  boolean stepInto;
 
   public DebugVM(Program prog, String src) throws FileNotFoundException{
     super(prog);
@@ -33,6 +35,8 @@ public class DebugVM extends VirtualMachine {
     stepOverPos = -1;
     stepOverLine = -1;
     stepOver = false;
+    stepIntoLine = -1;
+    stepInto = false;
     newFuncEnvRecord();
     lineCheck = new LineCode();
     lines = loadLines();
@@ -85,8 +89,18 @@ public class DebugVM extends VirtualMachine {
         stepOver = false;
         DebugUI.start(this);
       }
+      if(stepInto && stepIntoLine != getCurr() && getCurr() != 0 && getCurr() != -1) {
+System.out.println(getCurr());
+        stepInto = false;
+        DebugUI.start(this);
+      }
 
     } 
+  }
+
+  public void setStepInto() {
+    stepInto = true;
+    stepIntoLine = getCurr();
   }
 
   public void setStepOver() {

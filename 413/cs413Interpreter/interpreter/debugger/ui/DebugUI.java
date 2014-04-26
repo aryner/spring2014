@@ -27,6 +27,10 @@ public class DebugUI {
       case "continue":
       case "cont":
         break;
+      case "stepInto":
+      case "si":
+        stepInto(vm);
+        break;
       case "stepOver":
       case "so":
         stepOver(vm);
@@ -74,6 +78,7 @@ public class DebugUI {
     System.out.println("\thelp,  ?\t\t\t-Display list of commands");
     System.out.println("\tcontinue, cont\t\t\t-Continue execution of program");
     System.out.println("\tsetBreak,  sb\t\t\t-Any line numbers seperated \n\t\t\t\t\t  by spaces after this command \n\t\t\t\t\t  will set breakpoints at those lines");
+    System.out.println("\tstepInto,  si\t\t\t-Execute one line of code at a time");
     System.out.println("\tstepOver,  so\t\t\t-Step to the next line of code");
     System.out.println("\tstepOut,  sot\t\t\t-Step out of current function");
     System.out.println("\tdisplaySource,  ds\t\t-Display source program");
@@ -81,6 +86,10 @@ public class DebugUI {
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
     System.out.println("\tquit\t\t\t\t-Quit exection of program");
+  }
+
+  private static void stepInto(DebugVM vm) {
+    vm.setStepInto();
   }
 
   private static void stepOver(DebugVM vm) {
