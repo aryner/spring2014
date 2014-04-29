@@ -1,0 +1,25 @@
+-File attributes
+-File operations
+-File access methods
+-Directory structures
+    -Single-level
+    -Two-level
+    -Tree-structured
+    -Acyclic-graph
+    -General graph
+-Protection
+    -Access control lists
+    -UNIX-style
+-Layered file system
+-Virtual file system
+-Directory implementation
+-Open file tables
+    -Per process
+    -System-wide
+-File control blocks/Inodes
+-Disk allocation methods
+    -Strengths and weaknesses
+    -Contiguous
+    -Linked
+        -FAT
+    -Indexed
