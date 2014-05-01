@@ -10,7 +10,7 @@ import interpreter.*;
  * call
 */
 public class ReturnCode extends ByteCode {
-  String arg;
+  protected String arg;
   String pos;
  
   public ReturnCode() {

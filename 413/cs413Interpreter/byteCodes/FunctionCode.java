@@ -17,6 +17,17 @@ public class FunctionCode extends ByteCode {
 
   public void execute(VirtualMachine vm) {
     try {
+      if(((DebugVM)vm).isTrace()) {
+        int end = name.indexOf("<<");
+        String func;
+        if(end > -1) {
+          func = name.substring(0,end);
+        }
+        else {
+          func = name;
+        }
+        ((DebugVM)vm).pushTraceFunc(func);
+      }
       ((DebugVM)vm).funcEnvRecordFunction(name,start,end);
     }
     catch (Exception e) { }

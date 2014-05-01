@@ -14,6 +14,7 @@ public class LineCode extends ByteCode {
 
   public void execute(VirtualMachine vm) {
     try{
+      ((DebugVM)vm).setNewLine();
       ((DebugVM)vm).lineFuncEnvRecord(lineNum);
     }
     catch(Exception e) {}

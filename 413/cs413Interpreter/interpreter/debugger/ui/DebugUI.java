@@ -11,18 +11,19 @@ public class DebugUI {
     vm = dvm;
   }
 
-  public void start() {
-    displayFunction();
-    
+  public void start() { 
     while(vm.isRunning()) {
+      displayTrace();
       displayFunction();
       menu();
     }
+    displayTrace();
   }
 
   public void menu() {
     String command;
     Scanner input = new Scanner(System.in);
+    System.out.println();
     System.out.println("Type ? for help");
     System.out.print("> ");
     command = input.nextLine();
@@ -80,14 +81,26 @@ public class DebugUI {
         break;
       case "displayFunction":
       case "df":
+        displayFunction();
+        menu();
         break;
       case "viewStack":
       case "vs":
         viewStack();
         menu();
         break;
-      case "quit":
-        quit();
+      case "halt":
+        halt();
+        break;
+      case "setTraceOn":
+      case "ton":
+        trace(true);
+        menu();
+        break;
+      case "setTraceOff":
+      case "toff":
+        trace(false);
+        menu();
         break;
       default:
         System.out.println("Invalid command");
@@ -109,10 +122,31 @@ public class DebugUI {
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
     System.out.println("\tviewStack,  vs\t\t\t-Displays the current stack");
-    System.out.println("\tquit\t\t\t\t-Quit exection of program");
+    System.out.println("\tsetTraceOn  ton\t\t\t-Turns function tracing on");
+    System.out.println("\tsetTraceOff  toff\t\t-Turns function tracing off");
+    System.out.println("\thalt\t\t\t\t-Quit exection of program");
+  }
+
+  private void displayTrace() {
+    Vector<String> trace = vm.getTrace();
+    if(trace.size() > 0)
+      System.out.println();
+    for(int i=0; i<trace.size(); i++) {
+      System.out.println(trace.get(i));
+    }
+    if(trace.size() > 0)
+      System.out.println();
+    vm.clearTrace();
+  }
+
+  private void trace(boolean state) {
+    vm.setTrace(state);
   }
 
   private void viewStack() {
+    if(vm.getCurr() == 0) {
+      return;
+    }
     String[] stack = vm.getStack();
     for(int i=0; i<stack.length; i++) {
       System.out.println(stack[i]);
@@ -147,7 +181,7 @@ public class DebugUI {
     }
   }
 
-  private void quit() {
+  private void halt() {
     System.out.println("****Execution Halted****");
     vm.quit();
   }
@@ -161,15 +195,18 @@ public class DebugUI {
     if(vm.getStart() > 1) {
       offS--;
     }
+    
+    if(vm.getCurr() == -1) {
+      System.out.println("********"+vm.getName()+"**********");
+      return;
+    }
+
     Vector<String> src = vm.getCurrFunc();
     Vector<Boolean> breaks = vm.getCurrBreaks();
     int line = vm.getCurr();
 
     for(int i=0; i<src.size(); i++) {
-      if((i+vm.getStart()) == line) {
-        System.out.print(">");
-      }
-      else if(breaks.get(i+vm.getStart()+offS)) {
+      if(breaks.get(i+vm.getStart()+offS)) {
         System.out.print("*");
       }
       else{
@@ -182,6 +219,9 @@ public class DebugUI {
       System.out.print(i+vm.getStart()+".");
 
       System.out.print(src.get(i));
+      if((i+vm.getStart()) == line) {
+        System.out.print("\t<--------");
+      }
       System.out.println();
     }
   }
@@ -224,11 +264,12 @@ public class DebugUI {
   }
 
   private void displaySource(Vector<String> src, Vector<Boolean> breaks,int line) {
+    if(vm.getCurr() == -1) {
+      System.out.println("********"+vm.getName()+"**********");
+      return;
+    }
     for(int i=0; i<src.size(); i++) {
-      if((i+1) == line) {
-        System.out.print(">");
-      }
-      else if(breaks.get(i)) {
+      if(breaks.get(i)) {
         System.out.print("*");
       }
       else{
@@ -241,6 +282,9 @@ public class DebugUI {
       System.out.print(i+1+".");
 
       System.out.print(src.get(i));
+      if((i+1) == line) {
+        System.out.print("\t<--------");
+      }
       System.out.println();
     }
   }

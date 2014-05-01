@@ -8,6 +8,7 @@ import interpreter.debugger.ui.DebugUI;
 import byteCodes.debuggerByteCodes.*;
 
 public class DebugVM extends VirtualMachine {
+  Vector<String> tracedFunctions;
   Vector<String> sourceLine;
   Vector<Boolean> isBreakptSet;
   Stack<FunctionEnvironmentRecord> funcEnvRecord;
@@ -19,6 +20,8 @@ public class DebugVM extends VirtualMachine {
   boolean stepOver;
   int stepIntoLine;
   boolean stepInto;
+  boolean trace;
+  boolean newLine;
 
   public DebugVM(Program prog, String src) throws FileNotFoundException{
     super(prog);
@@ -27,6 +30,7 @@ public class DebugVM extends VirtualMachine {
     returnAddr = new Stack<String>();
     isBreakptSet = new Vector<Boolean>();
     sourceLine = new Vector<String>();
+    tracedFunctions = new Vector<String>();
     BufferedReader file = new BufferedReader(new FileReader(src));  
     loadSource(file, false);
     funcEnvRecord = new Stack<FunctionEnvironmentRecord>();
@@ -36,6 +40,8 @@ public class DebugVM extends VirtualMachine {
     stepOver = false;
     stepIntoLine = -1;
     stepInto = false;
+    trace = false;
+    newLine = false;
     newFuncEnvRecord();
     lineCheck = new LineCode();
     lines = loadLines();
@@ -75,11 +81,11 @@ public class DebugVM extends VirtualMachine {
       }
       pc++;
 
-      if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
-        isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false);  
+      if(newLine && getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1) && getName() != null) {
         stepOut = -1;
         stepOver = false;
         stepInto = false;
+        newLine = false;
         break;
       }
       if(funcEnvRecord.size() == stepOut) {
@@ -90,12 +96,57 @@ public class DebugVM extends VirtualMachine {
         stepOver = false;
         break;
       }
-      if(stepInto && stepIntoLine != getCurr()) {
+      if(stepInto && stepIntoLine != getCurr() && getName() != null) {
         stepInto = false;
         break;
       }
-
     } 
+  }
+
+  public void setNewLine() {
+    newLine = true;
+  }
+
+  public void setTrace(boolean state) {
+    trace = state;
+  }
+
+  public void clearTrace() {
+    tracedFunctions.clear();
+  }
+
+  public void pushTraceReturn() {
+    String name = getName();
+    int end = name.indexOf("<<");
+    String func;
+    if(end > -1) {
+      func = name.substring(0,end);
+    }
+    else {
+      func = name;
+    }
+    func = "exit: " + func + ": " + super.runStack.get(super.runStack.runStackSize()-1);
+    String spaces = "";
+    for(int i=0; i<funcEnvRecord.size(); i++) {
+      spaces += " ";
+    }
+    tracedFunctions.add(spaces + func );
+  }
+
+  public void pushTraceFunc(String func) {
+    String spaces = "";
+    for(int i=0; i<funcEnvRecord.size(); i++) {
+      spaces += " ";
+    }
+    tracedFunctions.add(spaces + func + "(");
+  }
+
+  public Vector<String> getTrace() {
+    return tracedFunctions;
+  }
+
+  public boolean isTrace() {
+    return trace;
   }
 
   public String[] getStack() {
