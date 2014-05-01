@@ -60,7 +60,7 @@ public class DebugUI {
         menu();
         break;
       case "listBreakPoints":
-      case "lbpt":
+      case "lbp":
         listBreaks();
         menu();
         break;
@@ -118,7 +118,7 @@ public class DebugUI {
     System.out.println("\tstepOut,  sot\t\t\t-Step out of current function");
     System.out.println("\tdisplaySource,  ds\t\t-Display source program");
     System.out.println("\tclearBreakPoints,  cbp\t\t-Remove all break points if \n\t\t\t\t\t  no arguments are given or \n\t\t\t\t\t  clears specific points if line \n\t\t\t\t\t  numbers are given");
-    System.out.println("\tlistBreakPoints,  lbpt\t\t-List current break poitns");
+    System.out.println("\tlistBreakPoints,  lbp\t\t-List current break poitns");
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
     System.out.println("\tviewStack,  vs\t\t\t-Displays the current stack");

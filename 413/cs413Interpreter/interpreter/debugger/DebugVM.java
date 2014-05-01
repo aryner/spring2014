@@ -138,7 +138,15 @@ public class DebugVM extends VirtualMachine {
     for(int i=0; i<funcEnvRecord.size(); i++) {
       spaces += " ";
     }
-    tracedFunctions.add(spaces + func + "(");
+    func += "(";
+    for(int i=super.framePeek(); i<super.runStackSize(); i++) {
+      func += super.getOffset(i);
+      if(i<super.runStackSize()-1) {
+        func += ", ";
+      }
+    }
+    func += ")";
+    tracedFunctions.add(spaces + func);
   }
 
   public Vector<String> getTrace() {
