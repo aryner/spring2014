@@ -11,6 +11,7 @@ public class DebugReturnCode extends ReturnCode {
       if(((DebugVM)vm).isTrace()) {
         ((DebugVM)vm).pushTraceReturn();
       }
+      ((DebugVM)vm).setNewLine(false);
       ((DebugVM)vm).endScope();
     }catch(Exception e) {}
   }

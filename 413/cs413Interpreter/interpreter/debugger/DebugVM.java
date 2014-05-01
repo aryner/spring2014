@@ -103,8 +103,8 @@ public class DebugVM extends VirtualMachine {
     } 
   }
 
-  public void setNewLine() {
-    newLine = true;
+  public void setNewLine(boolean state) {
+    newLine = state;
   }
 
   public void setTrace(boolean state) {
