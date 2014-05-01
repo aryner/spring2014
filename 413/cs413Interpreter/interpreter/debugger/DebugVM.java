@@ -25,7 +25,6 @@ public class DebugVM extends VirtualMachine {
     pc = 0;
     runStack = new RunTimeStack();
     returnAddr = new Stack<String>();
-    isRunning = true;
     isBreakptSet = new Vector<Boolean>();
     sourceLine = new Vector<String>();
     BufferedReader file = new BufferedReader(new FileReader(src));  
@@ -78,6 +77,9 @@ public class DebugVM extends VirtualMachine {
 
       if(funcEnvRecord.peek().getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1)) {
         isBreakptSet.set(funcEnvRecord.peek().getCurr()-1, false);  
+        stepOut = -1;
+        stepOver = false;
+        stepInto = false;
         break;
       }
       if(funcEnvRecord.size() == stepOut) {
@@ -94,6 +96,21 @@ public class DebugVM extends VirtualMachine {
       }
 
     } 
+  }
+
+  public String[] getStack() {
+    String[] result = new String[funcEnvRecord.size()];
+    Stack<FunctionEnvironmentRecord> temp = new Stack<FunctionEnvironmentRecord>();
+    while(funcEnvRecord.size() > 0) {
+      temp.push(funcEnvRecord.pop());
+    }
+    int i=0;
+    while(temp.size() > 0) {
+      result[i] = temp.peek().getName() + ":  " + temp.peek().getCurr();
+      funcEnvRecord.push(temp.pop()).getName();
+      i++;
+    }
+    return result;
   }
 
   public boolean isRunning() {

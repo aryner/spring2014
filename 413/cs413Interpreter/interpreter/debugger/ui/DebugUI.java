@@ -13,9 +13,9 @@ public class DebugUI {
 
   public void start() {
     displayFunction();
-    menu();
     
     while(vm.isRunning()) {
+      displayFunction();
       menu();
     }
   }
@@ -37,25 +37,21 @@ public class DebugUI {
       case "continue":
       case "cont":
         vm.executeProgram();
-        displayFunction();
         break;
       case "stepInto":
       case "si":
         stepInto();
         vm.executeProgram();
-        displayFunction();
         break;
       case "stepOver":
       case "so":
         stepOver();
         vm.executeProgram();
-        displayFunction();
         break;
       case "stepOut":
       case "sot":
         stepOut();
         vm.executeProgram();
-        displayFunction();
         break;
       case "setBreak":
       case "sb":
@@ -84,7 +80,10 @@ public class DebugUI {
         break;
       case "displayFunction":
       case "df":
-        displayFunction();
+        break;
+      case "viewStack":
+      case "vs":
+        viewStack();
         menu();
         break;
       case "quit":
@@ -109,7 +108,15 @@ public class DebugUI {
     System.out.println("\tlistBreakPoints,  lbpt\t\t-List current break poitns");
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
+    System.out.println("\tviewStack,  vs\t\t\t-Displays the current stack");
     System.out.println("\tquit\t\t\t\t-Quit exection of program");
+  }
+
+  private void viewStack() {
+    String[] stack = vm.getStack();
+    for(int i=0; i<stack.length; i++) {
+      System.out.println(stack[i]);
+    }
   }
 
   private void listBreaks() {

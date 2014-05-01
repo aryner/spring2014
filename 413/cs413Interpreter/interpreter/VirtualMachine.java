@@ -29,13 +29,13 @@ public class VirtualMachine {
     returnLocal = new Stack<Integer>();
     program = prog;
     dump = false;
+    isRunning = true;
   }
 
   public void executeProgram() {
     pc = 0;
     runStack = new RunTimeStack();
     returnAddr = new Stack<String>();
-    isRunning = true;
     while (isRunning) {
       ByteCode code = program.getCode(pc);
       code.execute(this);

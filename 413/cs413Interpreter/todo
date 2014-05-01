@@ -1,0 +1,11 @@
+-modify step functions when in intrinsict functions
+
+-set function tracing
+   need clarification on when trace is printed
+
+-print call stack
+   need clarification on exactly how much is printed
+
+-clean up bloated DebugVM
+
+-Success
