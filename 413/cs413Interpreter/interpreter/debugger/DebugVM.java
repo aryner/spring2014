@@ -369,9 +369,9 @@ public class DebugVM extends VirtualMachine {
     return isBreakptSet;
   }
 
-  public void setBreaks(int[] brks) {
-    for(int i=0; i<brks.length; i++) {
-      isBreakptSet.set(brks[i], true);
+  public void setBreaks(Vector<Integer> brks) {
+    for(int i=0; i<brks.size(); i++) {
+      isBreakptSet.set(brks.get(i), true);
     }
   }
 }

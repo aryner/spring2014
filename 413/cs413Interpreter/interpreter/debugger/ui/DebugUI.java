@@ -236,7 +236,25 @@ public class DebugUI {
 
   private void setBreaks(StringTokenizer tokens) {
     Vector<Integer> breaksArray = new Vector<Integer>();
+    int invalids = 0;
     while(tokens.hasMoreElements()) {
+      int num = Integer.parseInt(tokens.nextToken())-1;
+      if(isValidBreak(num)) {
+        breaksArray.add(num);
+      }
+      else {
+        invalids++;
+        if(invalids <= 1) {
+          System.out.print("***Invalid breakpoints: ");
+        }
+        System.out.print(" "+(num+1));
+      }
+    }
+    if(invalids > 0) {
+      System.out.println();
+    }
+    vm.setBreaks(breaksArray);
+/*
       breaksArray.add(Integer.parseInt(tokens.nextToken()));
     }
     int[] breakPts = new int[breaksArray.size()];
@@ -257,6 +275,7 @@ public class DebugUI {
       System.out.println();
     }
     vm.setBreaks(breakPts);
+*/
   }
 
   private Boolean isValidBreak(int num ) {
