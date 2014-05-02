@@ -81,7 +81,7 @@ public class DebugVM extends VirtualMachine {
       }
       pc++;
 
-      if(newLine && getCurr() > 0 && isBreakptSet.get(funcEnvRecord.peek().getCurr()-1) && getName() != null) {
+      if(newLine && getCurr() > 0 && isBreakptSet.get(getCurr()-1) && getName() != null) {
         stepOut = -1;
         stepOver = false;
         stepInto = false;

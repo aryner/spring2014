@@ -213,7 +213,7 @@ public class DebugUI {
         System.out.print(" ");
       }
 
-      if((i+vm.getStart())<9) {
+      if((i+vm.getStart())<10) {
         System.out.print(" ");
       }
       System.out.print(i+vm.getStart()+".");
