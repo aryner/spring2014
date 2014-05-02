@@ -138,6 +138,10 @@ public class DebugVM extends VirtualMachine {
     for(int i=0; i<funcEnvRecord.size(); i++) {
       spaces += " ";
     }
+    int index = func.indexOf("<<");
+    if(index > -1) {
+      func = func.substring(0, index);
+    }
     func += "(";
     for(int i=super.framePeek(); i<super.runStackSize(); i++) {
       func += super.getOffset(i);
@@ -165,7 +169,12 @@ public class DebugVM extends VirtualMachine {
     }
     int i=0;
     while(temp.size() > 0) {
-      result[i] = temp.peek().getName() + ":  " + temp.peek().getCurr();
+      String funcName = temp.peek().getName();
+      int index = funcName.indexOf("<<");
+      if(index > -1) {
+        funcName = funcName.substring(0, index);
+      }
+      result[i] = funcName + ":  " + temp.peek().getCurr();
       funcEnvRecord.push(temp.pop()).getName();
       i++;
     }

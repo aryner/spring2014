@@ -121,7 +121,7 @@ public class DebugUI {
     System.out.println("\tlistBreakPoints,  lbp\t\t-List current break poitns");
     System.out.println("\tdisplayVariables,  dv\t\t-Display current varaiables");
     System.out.println("\tdisplayFunction,  df\t\t-Display source code of the\n\t\t\t\t\t  current function");
-    System.out.println("\tviewStack,  vs\t\t\t-Displays the current stack");
+    System.out.println("\tviewStack,  vs\t\t\t-Displays the current runtime stack");
     System.out.println("\tsetTraceOn  ton\t\t\t-Turns function tracing on");
     System.out.println("\tsetTraceOff  toff\t\t-Turns function tracing off");
     System.out.println("\thalt\t\t\t\t-Quit exection of program");
@@ -148,7 +148,7 @@ public class DebugUI {
       return;
     }
     String[] stack = vm.getStack();
-    for(int i=0; i<stack.length; i++) {
+    for(int i=(stack.length-1); i>-1; i--) {
       System.out.println(stack[i]);
     }
   }
@@ -248,7 +248,7 @@ public class DebugUI {
       else {
         invalids++;
         if(invalids <= 1) {
-          System.out.print("The following lines are invalid for break points:");
+          System.out.print("***Invalid breakpoints: ");
         }
         System.out.print(" "+breaksArray.get(i));
       }
