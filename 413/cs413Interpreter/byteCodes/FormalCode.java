@@ -15,6 +15,7 @@ public class FormalCode extends ByteCode {
 
   public void execute(VirtualMachine vm) {
     try {
+      ((DebugVM)vm).decArgCount();
       ((DebugVM)vm).enterEnvRecord(var, arg);
     }
     catch(Exception e) {}

@@ -14,6 +14,7 @@ public class DebugVM extends VirtualMachine {
   Stack<FunctionEnvironmentRecord> funcEnvRecord;
   LineCode lineCheck;
   Vector<Integer> lines;
+  int argCount;
   int stepOut;
   int stepOverPos;
   int stepOverLine;
@@ -82,6 +83,9 @@ public class DebugVM extends VirtualMachine {
       pc++;
 
       if(newLine && getCurr() > 0 && isBreakptSet.get(getCurr()-1) && getName() != null) {
+        if(argCount > 0) {
+          continue;
+        }
         stepOut = -1;
         stepOver = false;
         stepInto = false;
@@ -97,10 +101,21 @@ public class DebugVM extends VirtualMachine {
         break;
       }
       if(stepInto && stepIntoLine != getCurr() && getName() != null) {
+        if(argCount > 0) {
+          continue;
+        }
         stepInto = false;
         break;
       }
     } 
+  }
+
+  public void setArgCount(int num) {
+    argCount = num;
+  }
+
+  public void decArgCount() {
+    argCount--;
   }
 
   public void setNewLine(boolean state) {
