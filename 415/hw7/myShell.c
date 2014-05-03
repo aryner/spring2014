@@ -60,9 +60,13 @@ int rightArrow(char* right, char* input, pid_t pid, int status, char *arg, char 
       count++;
     }
     argv[count] = NULL;
-    close(1);
-    close(2);
-    dup(file);
+    char* before = right - 1;
+    if(*before == '2') {
+      close(2);
+    }
+    else {
+      close(1);
+    }
     dup(file);
 
     if(execvp(argv[0], argv) < 0) {
