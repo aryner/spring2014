@@ -130,21 +130,27 @@ int piping(char* pip, char* input, pid_t pid, int status, char *arg, char **argv
     perror("Bad pipe");
     return -1;
   }
+  int background = 0;
+  arg = strtok(pip+2, " ");
+  count = 0;
+  while(arg != NULL) {
+    argv[count] = arg;
+    arg = strtok(NULL, " ");
+    count++;
+  }
+
+  argv[count] = NULL;
+  if(*argv[count-1] == '&') {
+    argv[count-1] = NULL;
+    background = 1;
+  }
+
   if((pid = fork()) == -1) {
     perror("Bad fork");
     return -1;
   }
+
   if(pid == 0) {
-
-    arg = strtok(pip+2, " ");
-    count = 0;
-    while(arg != NULL) {
-      argv[count] = arg;
-      arg = strtok(NULL, " ");
-      count++;
-    }
-
-    argv[count] = NULL;
     close(0);
     dup (pipeID[0]);
     close(pipeID[0]);
@@ -155,11 +161,7 @@ int piping(char* pip, char* input, pid_t pid, int status, char *arg, char **argv
       return -1;
     }
   }
-/*
-  else {
-    while(wait(&status1) != pid);
-  }
-*/
+
   if((pid2 = fork()) == -1) {
     perror("Bad fork");
     return -1;
@@ -184,7 +186,7 @@ int piping(char* pip, char* input, pid_t pid, int status, char *arg, char **argv
       return -1;
     }
   }
-  else {
+  else if(background == 0){
     while(wait(&status2) != pid2);
   }
   return 0;
@@ -208,22 +210,28 @@ int command(char* input, pid_t pid, int status, char *arg, char **argv, int coun
     return -1;
   }
 
-  if (pid == 0) {
-    arg = strtok(input, " ");
-    count = 0;
-    while(arg != NULL) {
-      argv[count] = arg;
-      arg = strtok(NULL, " ");
-      count++;
-    }
-    argv[count] = NULL;
+  int background = 0;
+  arg = strtok(input, " ");
+  count = 0;
+  while(arg != NULL) {
+    argv[count] = arg;
+    arg = strtok(NULL, " ");
+    count++;
+  }
+  argv[count] = NULL;
+  if(*argv[count-1] == '&') {
+    argv[count-1] = NULL;
+    background = 1;
+  }
 
+  if (pid == 0) {
     if(execvp(argv[0], argv) < 0) {
       fprintf(stderr, "error: Invalid command\n");
       return -1;
     }
   }
-  else {
+
+  else if(background == 0){
     while(wait(&status) != pid);
   }
 
