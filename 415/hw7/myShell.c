@@ -37,7 +37,7 @@ int main() {
 }
 
 int rightArrow(char* right, char* input, pid_t pid, int status, char *arg, char **argv, int count){
-  int file = open((right+2), O_CREAT|O_WRONLY);
+  int file = open((right+2), O_CREAT|O_WRONLY|O_TRUNC);
   
   if((pid = fork()) < 0) {
     fprintf(stderr, "error forking child process\n");
