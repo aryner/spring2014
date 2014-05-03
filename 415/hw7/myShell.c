@@ -7,6 +7,7 @@
 
 int command(char* input, pid_t pid, int status, char *arg, char **argv, int count);
 int rightArrow(char* right, char* input, pid_t pid, int status, char *arg, char **argv, int count);
+int leftArrow(char* left, char* input, pid_t pid, int status, char *arg, char **argv, int count);
 
 int main() {
   pid_t pid;
@@ -83,12 +84,51 @@ int rightArrow(char* right, char* input, pid_t pid, int status, char *arg, char 
   return 0;
 }
 
-int command(char* input, pid_t pid, int status, char *arg, char **argv, int count){
-  char* right;
+int leftArrow(char* left, char* input, pid_t pid, int status, char *arg, char **argv, int count){
+  int file = open((left+2), O_RDONLY);
 
-  if((right = strstr(input, ">"))) {
-    return rightArrow(right,input,pid,status,arg,argv,count);
+  if((pid = fork()) < 0) {
+    fprintf(stderr, "error forking child process\n");
+    close(file);
+    return -1;
   }
+
+  if(pid == 0) {
+    arg = strtok(input, " ");
+    count = 0;
+    while(arg < left) {
+      argv[count] = arg;
+      arg = strtok(NULL, " ");
+      count++;
+    }
+    argv[count] = NULL;
+    close(0);
+    dup(file);
+
+    if(execvp(argv[0], argv) < 0) {
+      fprintf(stderr, "error: Invalid command\n");
+      close(file);
+      return -1;
+    } 
+  }
+  else {
+    while(wait(&status) != pid);
+  }
+
+  close(file);
+  return 0;
+}
+
+int command(char* input, pid_t pid, int status, char *arg, char **argv, int count){
+  char* arrow;
+
+  if((arrow = strstr(input, ">"))) {
+    return rightArrow(arrow,input,pid,status,arg,argv,count);
+  }
+  if((arrow = strstr(input, "<"))) {
+    return leftArrow(arrow,input,pid,status,arg,argv,count);
+  }
+  
 
   if ((pid = fork()) < 0) {
     fprintf(stderr, "error forking child process\n");
