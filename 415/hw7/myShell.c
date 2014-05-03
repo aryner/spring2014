@@ -8,6 +8,7 @@
 int command(char* input, pid_t pid, int status, char *arg, char **argv, int count);
 int rightArrow(char* right, char* input, pid_t pid, int status, char *arg, char **argv, int count);
 int leftArrow(char* left, char* input, pid_t pid, int status, char *arg, char **argv, int count);
+int piping(char* pipe, char* input, pid_t pid, int status, char *arg, char **argv, int count);
 
 int main() {
   pid_t pid;
@@ -119,6 +120,76 @@ int leftArrow(char* left, char* input, pid_t pid, int status, char *arg, char **
   return 0;
 }
 
+int piping(char* pip, char* input, pid_t pid, int status, char *arg, char **argv, int count){
+  pid_t pid2;
+  int pipeID[2];
+  int status1;
+  int status2;
+
+  if((status = pipe(pipeID)) == -1) {
+    perror("Bad pipe");
+    return -1;
+  }
+  if((pid = fork()) == -1) {
+    perror("Bad fork");
+    return -1;
+  }
+  if(pid == 0) {
+
+    arg = strtok(pip+2, " ");
+    count = 0;
+    while(arg != NULL) {
+      argv[count] = arg;
+      arg = strtok(NULL, " ");
+      count++;
+    }
+
+    argv[count] = NULL;
+    close(0);
+    dup (pipeID[0]);
+    close(pipeID[0]);
+    close(pipeID[1]);
+
+    if(execvp(argv[0], argv) < 0) {
+      fprintf(stderr, "error: Invalid command1\n");
+      return -1;
+    }
+  }
+/*
+  else {
+    while(wait(&status1) != pid);
+  }
+*/
+  if((pid2 = fork()) == -1) {
+    perror("Bad fork");
+    return -1;
+  }
+  if(pid2 == 0) {
+    arg = strtok(input, " ");
+    count = 0;
+    while(arg < pip) {
+      argv[count] = arg;
+      arg = strtok(NULL, " ");
+      count++;
+    }
+    argv[count] = NULL;
+
+    close(1);
+    dup(pipeID[1]);
+    close(pipeID[0]);
+    close(pipeID[1]);
+
+    if(execvp(argv[0], argv) < 0) {
+      fprintf(stderr, "error: Invalid command2\n");
+      return -1;
+    }
+  }
+  else {
+    while(wait(&status2) != pid2);
+  }
+  return 0;
+}
+
 int command(char* input, pid_t pid, int status, char *arg, char **argv, int count){
   char* arrow;
 
@@ -128,7 +199,9 @@ int command(char* input, pid_t pid, int status, char *arg, char **argv, int coun
   if((arrow = strstr(input, "<"))) {
     return leftArrow(arrow,input,pid,status,arg,argv,count);
   }
-  
+  if((arrow = strstr(input, "|"))) {
+    return piping(arrow,input,pid,status,arg,argv,count);
+  } 
 
   if ((pid = fork()) < 0) {
     fprintf(stderr, "error forking child process\n");
