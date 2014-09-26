@@ -1,0 +1,25 @@
+Free space management
+  Bit vector
+  Linked list
+  Grouping
+  Counting
+Caching blocks
+  Buffer cache
+  Page cache
+  Unified buffer cache
+Hard disk structure
+Access time
+  Seek time
+  Rotational latency
+  Transfer time
+Disk scheduling algorithms
+  FCFS
+  SSTF
+  SCAN
+  C-SCAN
+  LOOK
+  C-LOOK
+RAID
+  General principles (don't need to memorize levels)
+  Reliability
+  Performance

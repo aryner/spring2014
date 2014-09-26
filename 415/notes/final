@@ -1,0 +1,59 @@
+interrupts and traps
+multiprogramming and multitasking
+storage hierarchy
+system calls
+system programs
+processes
+  states
+  data structures (PCB)
+interprocess communication
+  message passing (advantages/disadvantages)
+  shared memory (advantages/disadvantages)
+threads
+  user thread to kernel thread mapping
+  Pthreads library
+  differences from processes
+CPU scheduling
+  short-term vs. long-term
+  algorithms
+  Gantt charts
+  evaluation criteria (throughput, turnaround time, etc.)
+synchronization
+  critical section problem
+  primitives (swap() and testAndSet())
+  mutex locks
+  semaphores
+  monitors
+  deadlock
+  starvation
+memory
+  logical vs. virtual vs. physical
+  contiguous allocation
+  paging
+    page table
+    translation look-aside buffer
+    demand paging
+    copy-on-write
+    page replacement algorithms
+    frame allocation algorithms
+      global vs. local
+      thrashing
+      working set model
+  segmentation
+  address translation for various schemes mentioned above
+fragmentation
+  external
+  internal
+files
+  basic concept
+  operations
+  access modes
+directory structures (two-level, tree, etc.)
+protection
+  access control lists
+  owner, group, universe
+  types of permission (read, write, execute)
+storage allocation algorithms (contiguous, linked, indexed)
+free-space management
+disk scheduling algorithms (FCFS, SCAN, etc.)
+general RAID concepts (don't need to memorize exact levels)
